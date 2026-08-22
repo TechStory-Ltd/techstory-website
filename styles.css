@@ -125,6 +125,7 @@ img {
 }
 
 .nav a:hover,
+.nav a[aria-current="page"],
 .header-action:hover {
   color: var(--ink);
   background: rgba(255, 255, 255, 0.09);
@@ -336,6 +337,70 @@ h3 {
   color: #e7edf4;
 }
 
+.page-hero {
+  width: min(100% - 2rem, var(--max));
+  margin: 0 auto;
+  padding: clamp(4rem, 9vw, 8rem) 0 clamp(3rem, 7vw, 6rem);
+}
+
+.page-hero h1 {
+  max-width: 52rem;
+}
+
+.page-hero p {
+  max-width: 42rem;
+  color: var(--muted);
+  font-size: clamp(1.08rem, 1.8vw, 1.28rem);
+  line-height: 1.7;
+}
+
+.product-list {
+  width: min(100% - 2rem, var(--max));
+  display: grid;
+  grid-template-columns: minmax(0, 28rem);
+  gap: 1rem;
+  margin: 0 auto;
+  padding: 0 0 clamp(5rem, 9vw, 8rem);
+}
+
+.product-card {
+  min-height: 18rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(1.25rem, 2vw, 1.7rem);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(48, 213, 200, 0.48);
+  background: var(--panel-strong);
+}
+
+.product-card h2 {
+  margin-bottom: 0.9rem;
+  font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+}
+
+.product-card p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.product-link {
+  margin-top: auto;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.product-detail {
+  min-height: calc(100svh - 10rem);
+}
+
 .client-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -516,7 +581,9 @@ address a {
   .feature-band,
   .contact,
   .intro,
-  .site-footer {
+  .site-footer,
+  .page-hero,
+  .product-list {
     width: min(100% - 1rem, var(--max));
   }
 
