@@ -401,6 +401,252 @@ h3 {
   min-height: calc(100svh - 10rem);
 }
 
+.tracker-hero,
+.product-intro-band,
+.tracker-section,
+.tracker-showcase,
+.beta-section {
+  width: min(100% - 2rem, var(--max));
+  margin-inline: auto;
+}
+
+.tracker-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(30rem, 1.22fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  min-height: min(47rem, calc(95svh - 5rem));
+  padding: clamp(2rem, 5vw, 4.5rem) 0;
+}
+
+.tracker-hero-copy {
+  max-width: 39rem;
+}
+
+.tracker-hero h1 {
+  margin-block: 1rem 1.25rem;
+}
+
+.tracker-lead {
+  margin-bottom: 2rem;
+  color: var(--muted);
+  font-size: clamp(1.12rem, 1.8vw, 1.35rem);
+  line-height: 1.7;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  width: fit-content;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgba(246, 193, 95, 0.52);
+  border-radius: 999px;
+  background: rgba(246, 193, 95, 0.12);
+  color: var(--accent-2);
+  font-size: 0.76rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.tracker-feature-graphic {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
+}
+
+.product-intro-band {
+  padding: clamp(2rem, 5vw, 4rem) 0;
+  border-block: 1px solid var(--line);
+}
+
+.product-intro-band p {
+  max-width: 65rem;
+  margin: 0;
+  color: #d9e2ea;
+  font-size: clamp(1.35rem, 2.7vw, 2.25rem);
+  line-height: 1.35;
+}
+
+.tracker-section {
+  padding: clamp(4rem, 8vw, 7rem) 0;
+}
+
+.tracker-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.tracker-feature-grid article {
+  min-height: 17rem;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.tracker-feature-grid p,
+.showcase-copy p,
+.workflow-copy p,
+.tier-grid p,
+.beta-section p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.feature-number {
+  display: block;
+  margin-bottom: 2.5rem;
+  color: var(--accent-2);
+  font-weight: 850;
+}
+
+.tracker-showcase {
+  display: grid;
+  grid-template-columns: minmax(17rem, 0.82fr) repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.25rem;
+  padding: clamp(4rem, 8vw, 7rem) 0;
+  border-block: 1px solid var(--line);
+}
+
+.showcase-copy,
+.workflow-copy {
+  position: sticky;
+  top: 7rem;
+}
+
+.showcase-copy {
+  padding-right: 1rem;
+}
+
+.phone-shot,
+.workflow-images figure {
+  margin: 0;
+}
+
+.phone-shot img,
+.workflow-images img {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0c1116;
+}
+
+.phone-shot figcaption,
+.workflow-images figcaption {
+  padding-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.workflow-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(30rem, 1.2fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.plain-feature-list {
+  display: grid;
+  gap: 0.7rem;
+  padding-left: 1.2rem;
+  color: #d9e2ea;
+  line-height: 1.55;
+}
+
+.workflow-images,
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.tiers-section,
+.requirements-section {
+  border-top: 1px solid var(--line);
+}
+
+.tier-grid article {
+  min-height: 17rem;
+  padding: 1.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.tier-grid .tier-pro {
+  border-color: rgba(48, 213, 200, 0.38);
+  background: rgba(48, 213, 200, 0.08);
+}
+
+.tier-name {
+  color: var(--accent) !important;
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.tier-grid article > span {
+  display: block;
+  margin-top: 2rem;
+  color: #d9e2ea;
+  font-size: 0.9rem;
+}
+
+.requirements-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(30rem, 1.3fr);
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.requirements-list {
+  margin: 0;
+}
+
+.requirements-list div {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 1rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.requirements-list dt {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.requirements-list dd {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.beta-section {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding: clamp(2rem, 5vw, 4rem);
+  margin-bottom: clamp(4rem, 8vw, 7rem);
+  border: 1px solid rgba(48, 213, 200, 0.42);
+  border-radius: 8px;
+  background: rgba(48, 213, 200, 0.08);
+}
+
+.beta-section h2,
+.beta-section p {
+  max-width: 47rem;
+}
+
+.beta-section p:last-child {
+  margin-bottom: 0;
+}
+
 .client-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -552,6 +798,38 @@ address a {
   .client-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .tracker-hero,
+  .workflow-section,
+  .requirements-section {
+    grid-template-columns: 1fr;
+  }
+
+  .tracker-showcase {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .showcase-copy {
+    grid-column: 1 / -1;
+  }
+
+  .showcase-copy,
+  .workflow-copy {
+    position: static;
+  }
+
+  .tracker-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .beta-section {
+    grid-template-columns: auto 1fr;
+  }
+
+  .beta-section .button {
+    grid-column: 2;
+    width: fit-content;
+  }
 }
 
 @media (max-width: 620px) {
@@ -583,7 +861,12 @@ address a {
   .intro,
   .site-footer,
   .page-hero,
-  .product-list {
+  .product-list,
+  .tracker-hero,
+  .product-intro-band,
+  .tracker-section,
+  .tracker-showcase,
+  .beta-section {
     width: min(100% - 1rem, var(--max));
   }
 
@@ -603,8 +886,43 @@ address a {
 
   .service-grid,
   .client-grid,
-  .tool-panel {
+  .tool-panel,
+  .tracker-feature-grid,
+  .tracker-showcase,
+  .workflow-images,
+  .tier-grid {
     grid-template-columns: 1fr;
+  }
+
+  .tracker-hero {
+    min-height: auto;
+    padding-top: 2rem;
+  }
+
+  .tracker-feature-graphic {
+    order: -1;
+  }
+
+  .tracker-feature-grid article {
+    min-height: auto;
+  }
+
+  .feature-number {
+    margin-bottom: 1.5rem;
+  }
+
+  .requirements-list div {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .beta-section {
+    grid-template-columns: 1fr;
+  }
+
+  .beta-section .button {
+    grid-column: auto;
+    width: 100%;
   }
 
   .service-card {
