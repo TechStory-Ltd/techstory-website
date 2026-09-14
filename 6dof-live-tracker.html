@@ -3,14 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>6DOF Live Tracker | Tech Story</title>
-    <meta
-      name="description"
-      content="6DOF Live Tracker by Tech Story. Product page work in progress."
-    >
-    <meta property="og:title" content="6DOF Live Tracker | Tech Story">
-    <meta property="og:description" content="Work in progress product page for 6DOF Live Tracker.">
+    <title>6DOF Live Tracker Beta | Tech Story</title>
+    <meta name="description" content="6DOF Live Tracker turns an Android phone into a live camera tracker for Unreal Engine, FreeD, OSC, previs, and virtual production. Now in beta.">
+    <meta property="og:title" content="6DOF Live Tracker Beta | Tech Story">
+    <meta property="og:description" content="Android 6DOF camera tracking for Unreal Engine, FreeD, OSC, and virtual production workflows.">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://techstory.org.uk/assets/6dof/feature-graphic.png">
     <link rel="canonical" href="https://techstory.org.uk/6dof-live-tracker.html">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
@@ -18,41 +16,111 @@
   <body>
     <header class="site-header" data-header>
       <a class="brand" href="index.html" aria-label="Tech Story home">
-        <span class="brand-mark" aria-hidden="true">
-          <img src="assets/techstory-mark.svg" alt="">
-        </span>
+        <span class="brand-mark" aria-hidden="true"><img src="assets/techstory-mark.svg" alt=""></span>
         <span>Tech Story</span>
       </a>
       <nav class="nav" aria-label="Primary navigation">
-        <a href="products.html">Products</a>
+        <a href="products.html" aria-current="page">Products</a>
         <a href="index.html#services">Services</a>
         <a href="index.html#workflows">Workflows</a>
         <a href="index.html#clients">Clients</a>
         <a href="index.html#contact">Contact</a>
       </nav>
-      <a class="header-action" href="index.html#contact">Start a brief</a>
+      <a class="header-action" href="mailto:contact@techstory.org.uk?subject=6DOF%20Live%20Tracker%20beta">Join the beta</a>
     </header>
 
     <main>
-      <section class="page-hero product-detail">
-        <p class="eyebrow">Product</p>
-        <h1>6DOF Live Tracker</h1>
-        <p>Work in progress.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="index.html#contact">Discuss the product</a>
-          <a class="button secondary" href="products.html">Back to products</a>
+      <section class="tracker-hero">
+        <div class="tracker-hero-copy">
+          <span class="status-badge">Beta</span>
+          <p class="eyebrow">Android camera tracking</p>
+          <h1>6DOF Live Tracker</h1>
+          <p class="tracker-lead">Turn an Android phone into a live camera tracker for Unreal Engine, virtual production, previs, and real-time broadcast workflows.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="mailto:contact@techstory.org.uk?subject=6DOF%20Live%20Tracker%20beta%20testing">Join beta testing</a>
+            <a class="button secondary" href="#features">Explore features</a>
+          </div>
         </div>
+        <img class="tracker-feature-graphic" src="assets/6dof/feature-graphic.png" alt="6DOF Camera Tracker showing real ARCore tracking driving a live Unreal Engine camera">
+      </section>
+
+      <section class="product-intro-band">
+        <p>Stream camera position, orientation, and lens data over native FreeD or OSC. See the Unreal render on the phone, record takes, or fly the virtual camera independently with Scout mode.</p>
+      </section>
+
+      <section class="tracker-section" id="features">
+        <div class="section-heading">
+          <p class="eyebrow">Built for real-time work</p>
+          <h2>A practical tracking source for production pipelines.</h2>
+        </div>
+        <div class="tracker-feature-grid">
+          <article><span class="feature-number">01</span><h3>FreeD and OSC output</h3><p>Send pose and lens data straight to Unreal Engine, broadcast graphics systems, and receivers that already support established protocols.</p></article>
+          <article><span class="feature-number">02</span><h3>ARCore 6DOF tracking</h3><p>Track position and rotation with the phone camera and sensors. Simple, surface-trackable, and printed-marker anchor modes help manage drift.</p></article>
+          <article><span class="feature-number">03</span><h3>Unreal viewfinder</h3><p>Receive a live Unreal Pixel Streaming feed over WebRTC and view the rendered scene on the same phone that is driving the camera.</p></article>
+          <article><span class="feature-number">04</span><h3>Scout fly mode</h3><p>Add a virtual fly-camera offset on top of ARCore or IMU tracking using a gesture-based shove control or a full-screen joystick.</p></article>
+          <article><span class="feature-number">05</span><h3>Mapping and lens controls</h3><p>Match receiver coordinates with axis presets, custom mappings, space scale, and calibrated zoom, focus, and iris channels.</p></article>
+          <article><span class="feature-number">06</span><h3>Recording and export</h3><p>Record takes independently of streaming, review them later, export CSV, and use Pro playback, FBX, and raw-IMU export tools.</p></article>
+        </div>
+      </section>
+
+      <section class="tracker-showcase" aria-label="App screenshots">
+        <div class="showcase-copy">
+          <p class="eyebrow">On set</p>
+          <h2>Tracking, viewing, and control in one app.</h2>
+          <p>Switch between the real AR camera and the Unreal viewfinder without leaving the tracking screen. Live status, pose, lens data, streaming, recording, and hold controls stay close at hand.</p>
+        </div>
+        <figure class="phone-shot"><img src="assets/6dof/01_ue_pixel_streaming_viewfinder.png" alt="Live Unreal Pixel Streaming viewfinder in 6DOF Live Tracker" loading="lazy"><figcaption>Live Unreal Pixel Streaming viewfinder</figcaption></figure>
+        <figure class="phone-shot"><img src="assets/6dof/02_arcore_viewfinder.png" alt="ARCore camera tracking view with anchor and pose controls" loading="lazy"><figcaption>ARCore position and rotation tracking</figcaption></figure>
+        <figure class="phone-shot"><img src="assets/6dof/08_scout_fly_active.png" alt="Scout fly mode with joystick and speed controls" loading="lazy"><figcaption>Scout joystick fly mode</figcaption></figure>
+      </section>
+
+      <section class="tracker-section workflow-section">
+        <div class="workflow-copy">
+          <p class="eyebrow">Flexible workflow</p>
+          <h2>Adapt the tracker to your scene.</h2>
+          <p>Configure the target, protocol, camera ID, rate, mapping, and physical scale. The built-in Unreal preset gives you a useful starting point, while custom presets can be saved for different receivers and stages.</p>
+          <ul class="plain-feature-list">
+            <li>Unicast, broadcast, and multicast send modes</li>
+            <li>Up to 120 fps with Pro on supported devices</li>
+            <li>Manual hold controls for position and rotation</li>
+            <li>Background IMU streaming and screen-off operation</li>
+          </ul>
+        </div>
+        <div class="workflow-images">
+          <figure><img src="assets/6dof/04_axis_mapping.png" alt="Axis mapping and preset settings" loading="lazy"><figcaption>Axis mapping and reusable presets</figcaption></figure>
+          <figure><img src="assets/6dof/06_recordings_export.png" alt="Saved recordings and export options" loading="lazy"><figcaption>Recording, playback, and export</figcaption></figure>
+        </div>
+      </section>
+
+      <section class="tracker-section tiers-section">
+        <div class="section-heading"><p class="eyebrow">Lite and Pro</p><h2>Prove the workflow before you commit.</h2></div>
+        <div class="tier-grid">
+          <article><p class="tier-name">Lite</p><h3>Free testing sessions</h3><p>Configure, calibrate, record, and test your receiver with live streaming sessions of up to five minutes.</p></article>
+          <article class="tier-pro"><p class="tier-name">Pro</p><h3>Unlimited live tracking</h3><p>Remove the session limit and unlock higher rates, multi-destination output, smoothing, take playback, FBX export, and raw-IMU tools.</p><span>Monthly subscription or one-time Lifetime purchase</span></article>
+        </div>
+      </section>
+
+      <section class="tracker-section requirements-section">
+        <div><p class="eyebrow">Requirements</p><h2>What you need.</h2></div>
+        <dl class="requirements-list">
+          <div><dt>Android</dt><dd>Android 13 or newer</dd></div>
+          <div><dt>Full 6DOF</dt><dd>An ARCore-capable device and camera permission</dd></div>
+          <div><dt>IMU mode</dt><dd>Orientation tracking with manual or Scout-driven position</dd></div>
+          <div><dt>Receiver</dt><dd>A FreeD or OSC endpoint reachable over the network</dd></div>
+        </dl>
+      </section>
+
+      <section class="beta-section">
+        <span class="status-badge">Beta</span>
+        <div><p class="eyebrow">Help shape the release</p><h2>Participate in beta testing.</h2><p>We are looking for Unreal Engine artists, virtual production teams, technical artists, and broadcast users to test different Android devices, receivers, and network setups.</p></div>
+        <a class="button primary" href="mailto:contact@techstory.org.uk?subject=6DOF%20Live%20Tracker%20beta%20testing">contact@techstory.org.uk</a>
       </section>
     </main>
 
     <footer class="site-footer">
       <span>Copyright 2026 Tech Story</span>
-      <span class="footer-links">
-        <a href="privacy-policy.html">Privacy Policy</a>
-        <a href="index.html">Back to site</a>
-      </span>
+      <span class="footer-links"><a href="products.html">Products</a><a href="privacy-policy.html">Privacy Policy</a><a href="index.html">Back to site</a></span>
     </footer>
-
     <script src="script.js"></script>
   </body>
 </html>
