@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Connect 6DoF Camera Tracker to MotionBuilder | Tech Story</title>
+    <meta name="description" content="Guide for streaming 6DoF Camera Tracker pose and lens data to MotionBuilder through an OSC receiver or device plugin.">
+    <link rel="canonical" href="https://techstory.org.uk/guides/motionbuilder.html">
+    <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
+    <link rel="stylesheet" href="../styles.css?v=20261003-5">
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="../index.html" aria-label="Tech Story home"><span class="brand-mark" aria-hidden="true"><img src="../assets/techstory-mark.svg?v=3" alt=""></span><span>Tech Story</span></a>
+      <nav class="nav" aria-label="Primary navigation"><a href="../products.html" aria-current="page">Products</a><a href="../index.html#services">Services</a><a href="../index.html#workflows">Workflows</a><a href="../index.html#clients">Clients</a><a href="../index.html#contact">Contact</a></nav>
+      <a class="header-action" href="https://play.google.com/apps/testing/com.techstory.livetracker" target="_blank" rel="noopener noreferrer">Join open beta</a>
+    </header>
+
+    <main class="guide-page">
+      <section class="guide-hero">
+        <nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="../6dof-live-tracker.html">6DoF Camera Tracker</a><span>/</span><a href="index.html">Guides</a><span>/</span><span>MotionBuilder</span></nav>
+        <p class="eyebrow">MotionBuilder integration guide</p>
+        <h1>Build an OSC camera connection</h1>
+        <p class="guide-dek">Configure the Android stream and translate its OSC pose into a MotionBuilder camera through a compatible receiver or custom device plugin.</p>
+        <div class="guide-meta"><span>OSC</span><span>Receiver required</span></div>
+      </section>
+
+      <div class="guide-layout">
+        <aside class="guide-toc" aria-label="On this page">
+          <strong>On this page</strong>
+          <a href="#scope">Before you begin</a>
+          <a href="#app-setup">App setup</a>
+          <a href="#messages">OSC messages</a>
+          <a href="#coordinates">Coordinate conversion</a>
+          <a href="#receiver">Receiver design</a>
+          <a href="#verify">Verification</a>
+          <a href="#troubleshooting">Troubleshooting</a>
+        </aside>
+
+        <article class="guide-article">
+          <section id="scope">
+            <h2>Before you begin</h2>
+            <div class="guide-note warning"><strong>A MotionBuilder receiver is required</strong><p>6DoF Camera Tracker sends standards-based OSC over UDP, but it does not currently include a ready-made MotionBuilder device plugin. Use an OSC-capable receiver you trust, or treat this page as the specification for your own integration.</p></div>
+            <p>A production receiver should listen on a background network thread, retain the newest complete pose, and apply it to a camera from MotionBuilder's evaluation or main thread. Do not block scene evaluation while waiting for UDP packets.</p>
+          </section>
+
+          <section id="app-setup">
+            <h2>Configure the Android stream</h2>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Setting</th><th>Recommended value</th><th>Reason</th></tr></thead><tbody>
+              <tr><td>Protocol</td><td>OSC</td><td>Inspectable UDP messages with pose and optional side channels.</td></tr>
+              <tr><td>Target IP</td><td>MotionBuilder workstation's IPv4 address</td><td>The receiver binds locally; the phone sends to it.</td></tr>
+              <tr><td>Target port</td><td>The UDP port bound by the receiver</td><td>Choose an unused port and use it at both ends.</td></tr>
+              <tr><td>Send mode</td><td>Unicast</td><td>Avoids broadcast and multicast batching on many Wi-Fi networks.</td></tr>
+              <tr><td>Axis mapping</td><td>Default preset</td><td>Provides a known X-right, Y-forward, Z-up wire frame.</td></tr>
+              <tr><td>Space scale</td><td>100</td><td>Sends centimetre-sized values, matching MotionBuilder's common scene unit.</td></tr>
+              <tr><td>Stream rate</td><td>30–60 Hz</td><td>Start at the scene rate; increase only after the path is stable.</td></tr>
+            </tbody></table></div>
+            <div class="guide-figure-grid">
+              <figure><img src="../assets/guides/05_connecting_to_receiver.png" alt="OSC receiver settings in 6DoF Camera Tracker" loading="lazy"><figcaption>Point OSC at the workstation and the UDP port used by your receiver.</figcaption></figure>
+              <figure><img src="../assets/guides/04a_axis_mapping.png" alt="Axis mapping and space scale controls in 6DoF Camera Tracker" loading="lazy"><figcaption>Begin with Default mapping and Space scale 100 for centimetres.</figcaption></figure>
+            </div>
+          </section>
+
+          <section id="messages">
+            <h2>Receive the OSC messages</h2>
+            <p>Every stream tick sends one complete pose snapshot. A receiver should ignore addresses it does not recognise and keep the newest valid packet if packets arrive late or out of order.</p>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Address</th><th>Contents</th><th>When sent</th></tr></thead><tbody>
+              <tr><td><code>/livetracker/pose</code></td><td>Camera ID, pan, tilt, roll, X, Y, Z, zoom, focus, iris</td><td>Every tick</td></tr>
+              <tr><td><code>/livetracker/lens</code></td><td>Calibration flags and physical lens ranges</td><td>At start, on change, and periodically</td></tr>
+              <tr><td><code>/livetracker/diag</code></td><td>Sequence and send time</td><td>When diagnostics are enabled</td></tr>
+              <tr><td><code>/livetracker/imu</code></td><td>Raw Android sensor values</td><td>Pro, when raw IMU streaming is enabled</td></tr>
+            </tbody></table></div>
+            <p>The pose type tags are <code>,iffffffiii</code>. Values are big-endian OSC 1.0 fields, with one message per UDP datagram and no OSC bundle.</p>
+          </section>
+
+          <section id="coordinates">
+            <h2>Convert the coordinate frame</h2>
+            <p>With the app's Default preset, the wire frame is right-handed: X points right, Y points forward, and Z points up. A practical starting conversion for MotionBuilder's Y-up camera space is:</p>
+            <div class="guide-note"><strong>Position</strong><p>Map wire position <code>(X, Y, Z)</code> to MotionBuilder <code>(X, Z, -Y)</code>. With Space scale 100, the values are already centimetre-sized.</p></div>
+            <p>Rotation is not a plain XYZ Euler triple. Compose yaw about world up, then pitch, then roll about the camera's own axes, and convert that orientation into the MotionBuilder camera frame. Unwrap angles when interpolating across ±180 degrees.</p>
+          </section>
+
+          <section id="receiver">
+            <h2>Apply data safely</h2>
+            <ol>
+              <li>Bind a UDP socket to the configured port and parse complete OSC datagrams on a network thread.</li>
+              <li>Validate the address and exact type tags. Drop truncated or unexpected packets.</li>
+              <li>Write the newest pose into a thread-safe latest-value slot rather than queueing old frames.</li>
+              <li>Read that value during MotionBuilder evaluation and drive an <code>FBCamera</code> or animation-node output.</li>
+              <li>Use calibrated zoom as focal length in millimetres. Convert calibrated focus and iris only if your scene uses them.</li>
+              <li>Treat a short period without packets as an offline device and hold or release the camera predictably.</li>
+            </ol>
+          </section>
+
+          <section id="verify">
+            <h2>Verify before a production take</h2>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Phone movement</th><th>Expected Default-preset signal</th></tr></thead><tbody>
+              <tr><td>Turn right</td><td>Pan increases</td></tr>
+              <tr><td>Tilt up</td><td>Tilt should increase; confirm against your receiver</td></tr>
+              <tr><td>Roll clockwise from behind</td><td>Roll should increase; confirm against your receiver</td></tr>
+              <tr><td>Walk forward</td><td>Wire Y increases</td></tr>
+              <tr><td>Move right</td><td>Wire X increases</td></tr>
+              <tr><td>Raise the phone</td><td>Wire Z increases</td></tr>
+              <tr><td>Walk one metre at scale 100</td><td>Position changes by approximately 100</td></tr>
+            </tbody></table></div>
+          </section>
+
+          <section id="troubleshooting">
+            <h2>Troubleshooting</h2>
+            <ul>
+              <li><strong>No packets:</strong> confirm the workstation IP, UDP port, Windows Firewall rule, and that the receiver is bound before streaming starts.</li>
+              <li><strong>Camera points sideways:</strong> verify the camera's local forward axis and apply the frame conversion once.</li>
+              <li><strong>Wrong scale:</strong> use Space scale 100 or multiply metre values inside the receiver, but not both.</li>
+              <li><strong>Jitter:</strong> retain only the newest packet and interpolate recent samples; do not replay a growing UDP queue.</li>
+              <li><strong>Lens values look arbitrary:</strong> read the lens calibration flags before interpreting encoder integers as physical units.</li>
+            </ul>
+          </section>
+        </article>
+      </div>
+
+      <nav class="guide-pagination" aria-label="Guide navigation"><a href="unreal-engine.html">Previous: Unreal Engine</a><a href="roblox-studio.html">Next: Roblox Studio</a></nav>
+    </main>
+
+    <footer class="site-footer"><span>Copyright 2026 Tech Story</span><span class="footer-links"><a href="../6dof-live-tracker.html">Product</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span></footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

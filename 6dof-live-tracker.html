@@ -11,7 +11,7 @@
     <meta property="og:image" content="https://techstory.org.uk/assets/6dof/feature-graphic.png">
     <link rel="canonical" href="https://techstory.org.uk/6dof-live-tracker.html">
     <link rel="icon" href="assets/favicon.svg?v=3" type="image/svg+xml">
-    <link rel="stylesheet" href="styles.css?v=20261003-2">
+    <link rel="stylesheet" href="styles.css?v=20261003-6">
   </head>
   <body>
     <header class="site-header" data-header>
@@ -32,14 +32,20 @@
     <main>
       <section class="tracker-hero">
         <div class="tracker-hero-copy">
-          <span class="status-badge">Open beta</span>
-          <p class="eyebrow">Android camera tracking</p>
+          <div class="tracker-product-mark">
+            <img class="tracker-product-logo" src="assets/6dof-camera-tracker-icon.png" alt="6DoF Camera Tracker app icon">
+            <div>
+              <span class="status-badge">Open beta</span>
+              <p class="eyebrow">Android camera tracking</p>
+            </div>
+          </div>
           <h1>6DoF Camera Tracker</h1>
           <p class="tracker-lead">Turn an Android phone into a live camera tracker for Unreal Engine, virtual production, previs, and real-time broadcast workflows. The open beta is available to everyone.</p>
           <div class="hero-actions">
             <a class="button primary" href="https://play.google.com/apps/testing/com.techstory.livetracker" target="_blank" rel="noopener noreferrer">Join the open beta</a>
             <a class="button secondary" href="https://play.google.com/store/apps/details?id=com.techstory.livetracker" target="_blank" rel="noopener noreferrer">View on Google Play</a>
           </div>
+          <a class="hero-guide-link" href="guides/index.html">Read the user guides <span aria-hidden="true">&rarr;</span></a>
         </div>
         <img class="tracker-feature-graphic" src="assets/6dof/feature-graphic.png" alt="6DOF Camera Tracker showing real ARCore tracking driving a live Unreal Engine camera">
       </section>
@@ -72,6 +78,47 @@
         <figure class="phone-shot"><img src="assets/6dof/01_ue_pixel_streaming_viewfinder.png" alt="Live Unreal Pixel Streaming viewfinder in 6DoF Camera Tracker" loading="lazy"><figcaption>Live Unreal Pixel Streaming viewfinder</figcaption></figure>
         <figure class="phone-shot"><img src="assets/6dof/02_arcore_viewfinder.png" alt="ARCore camera tracking view with anchor and pose controls" loading="lazy"><figcaption>ARCore position and rotation tracking</figcaption></figure>
         <figure class="phone-shot"><img src="assets/6dof/08_scout_fly_active.png" alt="Scout fly mode with joystick and speed controls" loading="lazy"><figcaption>Scout joystick fly mode</figcaption></figure>
+      </section>
+
+      <section class="tracker-section guides-section" id="guides">
+        <div class="guide-section-heading">
+          <div>
+            <p class="eyebrow">User guides</p>
+            <h2>Connect it to your pipeline.</h2>
+            <p>Step-by-step workflows for sending live camera tracking into the tools you already use.</p>
+          </div>
+          <a class="guide-all-link" href="guides/index.html">View all guides</a>
+        </div>
+        <div class="guide-card-grid">
+          <a class="guide-card" href="guides/unreal-engine.html">
+            <span class="guide-platform">Unreal Engine</span>
+            <h3>Connect with FreeD and Live Link</h3>
+            <p>Drive a CineCamera actor, verify transform and lens data, and add the Unreal viewfinder.</p>
+            <span class="guide-card-meta">FreeD</span>
+            <span class="guide-card-link">Read guide</span>
+          </a>
+          <a class="guide-card" href="guides/motionbuilder.html">
+            <span class="guide-platform">MotionBuilder</span>
+            <h3>Build an OSC camera connection</h3>
+            <p>Configure the stream, convert coordinates, and feed a compatible MotionBuilder receiver.</p>
+            <span class="guide-card-meta">OSC</span>
+            <span class="guide-card-link">Read guide</span>
+          </a>
+          <a class="guide-card" href="guides/roblox-studio.html">
+            <span class="guide-platform">Roblox Studio</span>
+            <h3>Track live or bake a camera path</h3>
+            <p>Connect the Studio plugin over WebSocket, then bring recorded takes into a published place.</p>
+            <span class="guide-card-meta">WebSocket</span>
+            <span class="guide-card-link">Read guide</span>
+          </a>
+          <a class="guide-card" href="guides/obs-studio.html">
+            <span class="guide-platform">OBS Studio</span>
+            <h3>Send the program view to your phone</h3>
+            <p>Use native WHIP for a simple connection, or DistroAV NDI when lower latency matters.</p>
+            <span class="guide-card-meta">WHIP or NDI</span>
+            <span class="guide-card-link">Read guide</span>
+          </a>
+        </div>
       </section>
 
       <section class="tracker-section workflow-section">
@@ -116,6 +163,7 @@
         <div class="beta-actions">
           <a class="button primary" href="https://play.google.com/apps/testing/com.techstory.livetracker" target="_blank" rel="noopener noreferrer">Join the open beta</a>
           <a class="button secondary" href="https://play.google.com/store/apps/details?id=com.techstory.livetracker" target="_blank" rel="noopener noreferrer">Google Play listing</a>
+          <a class="button secondary" href="guides/index.html">Read user guides</a>
         </div>
       </section>
     </main>

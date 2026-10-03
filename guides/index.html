@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>6DoF Camera Tracker Guides | Tech Story</title>
+    <meta name="description" content="Setup and integration guides for connecting 6DoF Camera Tracker to Unreal Engine, MotionBuilder, Roblox Studio, and OBS Studio.">
+    <link rel="canonical" href="https://techstory.org.uk/guides/">
+    <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
+    <link rel="stylesheet" href="../styles.css?v=20261003-5">
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="../index.html" aria-label="Tech Story home">
+        <span class="brand-mark" aria-hidden="true"><img src="../assets/techstory-mark.svg?v=3" alt=""></span>
+        <span>Tech Story</span>
+      </a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="../products.html" aria-current="page">Products</a>
+        <a href="../index.html#services">Services</a>
+        <a href="../index.html#workflows">Workflows</a>
+        <a href="../index.html#clients">Clients</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <a class="header-action" href="https://play.google.com/apps/testing/com.techstory.livetracker" target="_blank" rel="noopener noreferrer">Join open beta</a>
+    </header>
+
+    <main class="guides-index">
+      <section class="guide-hero">
+        <nav class="guide-breadcrumbs" aria-label="Breadcrumb">
+          <a href="../products.html">Products</a><span>/</span><a href="../6dof-live-tracker.html">6DoF Camera Tracker</a><span>/</span><span>Guides</span>
+        </nav>
+        <p class="eyebrow">6DoF Camera Tracker</p>
+        <h1>User guides</h1>
+        <p class="guide-dek">Connect live phone tracking and preview video with Unreal Engine, MotionBuilder, Roblox Studio, or OBS Studio. Each guide starts with the app settings and follows the signal through the complete workflow.</p>
+      </section>
+
+      <section class="tracker-section guides-section" aria-labelledby="guide-list-title">
+        <div class="guide-section-heading">
+          <div><p class="eyebrow">Choose a pipeline</p><h2 id="guide-list-title">From phone to virtual camera.</h2></div>
+        </div>
+        <div class="guide-card-grid">
+          <a class="guide-card" href="unreal-engine.html">
+            <span class="guide-platform">Unreal Engine</span>
+            <h3>Connect with FreeD and Live Link</h3>
+            <p>Configure a Live Link FreeD source, drive a CineCamera actor, validate axes and lens data, and optionally receive Pixel Streaming on the phone.</p>
+            <span class="guide-card-meta">FreeD</span>
+            <span class="guide-card-link">Read guide</span>
+          </a>
+          <a class="guide-card" href="motionbuilder.html">
+            <span class="guide-platform">MotionBuilder</span>
+            <h3>Build an OSC camera connection</h3>
+            <p>Send pose and lens values over OSC, convert the coordinate frame, and connect through a compatible MotionBuilder receiver or device plugin.</p>
+            <span class="guide-card-meta">OSC</span>
+            <span class="guide-card-link">Read guide</span>
+          </a>
+          <a class="guide-card" href="roblox-studio.html">
+            <span class="guide-platform">Roblox Studio</span>
+            <h3>Track live or bake a camera path</h3>
+            <p>Use the Studio plugin for a live WebSocket camera, then export and bake recorded motion for experiences that need to ship.</p>
+            <span class="guide-card-meta">WebSocket</span>
+            <span class="guide-card-link">Read guide</span>
+          </a>
+          <a class="guide-card" href="obs-studio.html">
+            <span class="guide-platform">OBS Studio</span>
+            <h3>Send the program view to your phone</h3>
+            <p>Publish the OBS program feed directly with WHIP, or use the DistroAV plugin to make it available as an NDI source.</p>
+            <span class="guide-card-meta">WHIP or NDI</span>
+            <span class="guide-card-link">Read guide</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Copyright 2026 Tech Story</span>
+      <span class="footer-links"><a href="../6dof-live-tracker.html">Product</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

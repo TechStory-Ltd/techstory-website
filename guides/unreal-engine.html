@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Connect 6DoF Camera Tracker to Unreal Engine | Tech Story</title>
+    <meta name="description" content="Connect 6DoF Camera Tracker to an Unreal Engine CineCamera using FreeD and Live Link, then add the optional Pixel Streaming viewfinder.">
+    <link rel="canonical" href="https://techstory.org.uk/guides/unreal-engine.html">
+    <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
+    <link rel="stylesheet" href="../styles.css?v=20261003-5">
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="../index.html" aria-label="Tech Story home"><span class="brand-mark" aria-hidden="true"><img src="../assets/techstory-mark.svg?v=3" alt=""></span><span>Tech Story</span></a>
+      <nav class="nav" aria-label="Primary navigation"><a href="../products.html" aria-current="page">Products</a><a href="../index.html#services">Services</a><a href="../index.html#workflows">Workflows</a><a href="../index.html#clients">Clients</a><a href="../index.html#contact">Contact</a></nav>
+      <a class="header-action" href="https://play.google.com/apps/testing/com.techstory.livetracker" target="_blank" rel="noopener noreferrer">Join open beta</a>
+    </header>
+
+    <main class="guide-page">
+      <section class="guide-hero">
+        <nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="../6dof-live-tracker.html">6DoF Camera Tracker</a><span>/</span><a href="index.html">Guides</a><span>/</span><span>Unreal Engine</span></nav>
+        <p class="eyebrow">Unreal Engine guide</p>
+        <h1>Connect with FreeD and Live Link</h1>
+        <p class="guide-dek">Send position, rotation, and lens data from an Android phone to a CineCamera actor, then use Unreal Pixel Streaming as an optional return viewfinder.</p>
+        <div class="guide-meta"><span>FreeD</span><span>About 15 minutes</span></div>
+      </section>
+
+      <div class="guide-layout">
+        <aside class="guide-toc" aria-label="On this page">
+          <strong>On this page</strong>
+          <a href="#requirements">Requirements</a>
+          <a href="#unreal-setup">Unreal setup</a>
+          <a href="#app-setup">App setup</a>
+          <a href="#camera">Drive the camera</a>
+          <a href="#verify">Verify tracking</a>
+          <a href="#viewfinder">Unreal viewfinder</a>
+          <a href="#troubleshooting">Troubleshooting</a>
+        </aside>
+
+        <article class="guide-article">
+          <section id="requirements">
+            <h2>What you need</h2>
+            <ul>
+              <li>An ARCore-capable Android phone running 6DoF Camera Tracker.</li>
+              <li>A Windows computer running Unreal Engine with a project containing a CineCamera actor.</li>
+              <li>The phone and computer on the same local network.</li>
+              <li>A UDP port available for the FreeD source. Use the same port in Unreal and the app.</li>
+            </ul>
+            <div class="guide-note"><strong>Tracking and video are separate connections</strong><p>FreeD carries camera and lens data into Unreal. Pixel Streaming sends rendered video back to the phone. Complete tracking first, then add the viewfinder.</p></div>
+          </section>
+
+          <section id="unreal-setup">
+            <h2>Prepare Unreal Engine</h2>
+            <ol>
+              <li>Open <strong>Edit → Plugins</strong> and enable <strong>Live Link</strong> and <strong>Live Link FreeD</strong>. Restart the editor if requested.</li>
+              <li>Open the Live Link panel from Unreal's Virtual Production tools.</li>
+              <li>Add a <strong>FreeD</strong> source and choose a UDP port that is not already in use.</li>
+              <li>Allow Unreal Engine through Windows Firewall on private networks when prompted.</li>
+            </ol>
+            <p>The Live Link source should remain visible even before packets arrive. Its subject becomes active when the phone starts streaming.</p>
+          </section>
+
+          <section id="app-setup">
+            <h2>Configure the Android app</h2>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Setting</th><th>Recommended value</th><th>Reason</th></tr></thead><tbody>
+              <tr><td>Protocol</td><td>FreeD</td><td>Native camera-tracking path for Unreal Live Link.</td></tr>
+              <tr><td>Target IP</td><td>Unreal computer's local IPv4 address</td><td>Sends directly to the workstation.</td></tr>
+              <tr><td>Target port</td><td>Same port as the FreeD source</td><td>Both ends must match.</td></tr>
+              <tr><td>Send mode</td><td>Unicast</td><td>Lowest-overhead choice on a normal Wi-Fi network.</td></tr>
+              <tr><td>Axis mapping</td><td>Default preset</td><td>Starts with the app's Unreal-oriented coordinate mapping.</td></tr>
+              <tr><td>Space scale</td><td>1</td><td>Keep the physical tracking scale unchanged initially.</td></tr>
+            </tbody></table></div>
+            <figure class="guide-figure"><img src="../assets/guides/05_connecting_to_receiver.png" alt="6DoF Camera Tracker stream settings for configuring a receiver" loading="lazy"><figcaption>Set the Unreal computer address, the matching UDP port, and FreeD before starting the stream.</figcaption></figure>
+          </section>
+
+          <section id="camera">
+            <h2>Drive a CineCamera actor</h2>
+            <ol>
+              <li>Add or select a <strong>CineCameraActor</strong> in the level.</li>
+              <li>Add a <strong>Live Link Controller</strong> component to the camera.</li>
+              <li>Select the subject created by the FreeD source and use the camera role/controller available in your Unreal version.</li>
+              <li>Start tracking in the app, set the phone down at the intended origin, and press <strong>Zero pose</strong>.</li>
+              <li>Calibrate zoom, focus, or iris in the app before expecting physical lens values in Unreal.</li>
+            </ol>
+            <div class="guide-note warning"><strong>Do not compensate twice</strong><p>Start with the app's Default mapping and neutral offsets. If one axis is reversed, correct it in one place only: either the app mapping preset or the Unreal camera setup.</p></div>
+          </section>
+
+          <section id="verify">
+            <h2>Verify one axis at a time</h2>
+            <ol>
+              <li>Move the phone right, forward, and up separately. Confirm the virtual camera follows each direction.</li>
+              <li>Turn right, tilt up, and roll clockwise separately. Check for the expected response without cross-axis movement.</li>
+              <li>Walk a measured distance and confirm the virtual translation matches the stage scale.</li>
+              <li>Stop and restart the stream to confirm the source reconnects cleanly.</li>
+            </ol>
+          </section>
+
+          <section id="viewfinder">
+            <h2>Add the Unreal viewfinder</h2>
+            <p>Once tracking works, configure Unreal Pixel Streaming and enter its signalling-server address under <strong>Settings → View / Preview Input</strong>. Switch the viewfinder to <strong>UE</strong> to see the rendered camera feed while the app continues sending FreeD.</p>
+            <figure class="guide-figure"><img src="../assets/guides/10_ue_pixel_streaming.png" alt="Unreal Pixel Streaming viewfinder configuration in 6DoF Camera Tracker" loading="lazy"><figcaption>The UE viewfinder is a return video path; it does not replace the FreeD tracking connection.</figcaption></figure>
+          </section>
+
+          <section id="troubleshooting">
+            <h2>Troubleshooting</h2>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
+              <tr><td>No Live Link subject</td><td>Confirm the target IP, matching UDP port, private-network firewall permission, and that streaming is running.</td></tr>
+              <tr><td>Rotation works but position does not</td><td>Use ARCore rather than IMU-only tracking and confirm camera permission and tracking status.</td></tr>
+              <tr><td>Wrong axis or direction</td><td>Reset the app to the Default axis preset, then adjust only the incorrect channel.</td></tr>
+              <tr><td>Lens values do not change</td><td>Enable and calibrate the required lens channel in the app.</td></tr>
+              <tr><td>UE viewfinder is blank</td><td>Test the Pixel Streaming URL separately and remember that tracking can work without return video.</td></tr>
+            </tbody></table></div>
+          </section>
+        </article>
+      </div>
+
+      <nav class="guide-pagination" aria-label="Guide navigation"><a href="index.html">All guides</a><a href="motionbuilder.html">Next: MotionBuilder</a></nav>
+    </main>
+
+    <footer class="site-footer"><span>Copyright 2026 Tech Story</span><span class="footer-links"><a href="../6dof-live-tracker.html">Product</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span></footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Connect 6DoF Camera Tracker to Roblox Studio | Tech Story</title>
+    <meta name="description" content="Connect 6DoF Camera Tracker to Roblox Studio over WebSocket for live camera control, or bake a recorded path into a published experience.">
+    <link rel="canonical" href="https://techstory.org.uk/guides/roblox-studio.html">
+    <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
+    <link rel="stylesheet" href="../styles.css?v=20261003-5">
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="../index.html" aria-label="Tech Story home"><span class="brand-mark" aria-hidden="true"><img src="../assets/techstory-mark.svg?v=3" alt=""></span><span>Tech Story</span></a>
+      <nav class="nav" aria-label="Primary navigation"><a href="../products.html" aria-current="page">Products</a><a href="../index.html#services">Services</a><a href="../index.html#workflows">Workflows</a><a href="../index.html#clients">Clients</a><a href="../index.html#contact">Contact</a></nav>
+      <a class="header-action" href="https://play.google.com/apps/testing/com.techstory.livetracker" target="_blank" rel="noopener noreferrer">Join open beta</a>
+    </header>
+
+    <main class="guide-page">
+      <section class="guide-hero">
+        <nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="../6dof-live-tracker.html">6DoF Camera Tracker</a><span>/</span><a href="index.html">Guides</a><span>/</span><span>Roblox Studio</span></nav>
+        <p class="eyebrow">Roblox Studio guide</p>
+        <h1>Track live or bake a camera path</h1>
+        <p class="guide-dek">Control the Studio camera from your phone over the local network, then export recorded movement for a camera path that can ship with a published experience.</p>
+        <div class="guide-meta"><span>WebSocket JSON</span><span>Studio plugin</span></div>
+      </section>
+
+      <div class="guide-layout">
+        <aside class="guide-toc" aria-label="On this page">
+          <strong>On this page</strong>
+          <a href="#choose">Choose a workflow</a>
+          <a href="#requirements">Requirements</a>
+          <a href="#app-setup">App setup</a>
+          <a href="#studio">Studio plugin</a>
+          <a href="#play">Play mode</a>
+          <a href="#bake">Bake to Place</a>
+          <a href="#troubleshooting">Troubleshooting</a>
+        </aside>
+
+        <article class="guide-article">
+          <section id="choose">
+            <h2>Choose live tracking or a baked path</h2>
+            <p><strong>Live tracking</strong> drives the edit viewport or local Play camera while Roblox Studio is open. It is best for previs, blocking, and recording a move.</p>
+            <p><strong>Bake to Place</strong> imports a recorded take as keyframes. The resulting camera path ships with the place and no longer needs the phone, plugin, or network connection.</p>
+            <div class="guide-note warning"><strong>Live mode is Studio-only</strong><p>Roblox permits the required WebSocket client in Studio, not in a published running experience. Use a baked path for camera animation that must work after publishing.</p></div>
+          </section>
+
+          <section id="requirements">
+            <h2>What you need</h2>
+            <ul>
+              <li>6DoF Camera Tracker and Roblox Studio on the same local network.</li>
+              <li>The Camera Tracker Studio plugin installed locally or from its available distribution.</li>
+              <li>The phone's local IPv4 address, visible in Android network settings.</li>
+              <li>For baked paths, a recorded take and Pro access to Roblox JSON export.</li>
+            </ul>
+          </section>
+
+          <section id="app-setup">
+            <h2>Configure live tracking in the app</h2>
+            <ol>
+              <li>Open <strong>Settings → Stream</strong>.</li>
+              <li>Set Protocol to <strong>WebSocket (JSON)</strong>.</li>
+              <li>Keep the listen port at <code>9003</code>, or note the custom port you choose.</li>
+              <li>Use the Default axis-mapping preset unless the Studio scene requires a deliberate remap.</li>
+              <li>Press <strong>Start stream</strong>. The phone hosts the server; Roblox Studio connects to it.</li>
+            </ol>
+            <figure class="guide-figure"><img src="../assets/guides/13a_roblox_stream_protocol.png" alt="WebSocket JSON selected in the 6DoF Camera Tracker stream settings" loading="lazy"><figcaption>For Roblox live tracking, select WebSocket JSON and note the listening port.</figcaption></figure>
+          </section>
+
+          <section id="studio">
+            <h2>Connect the Studio plugin</h2>
+            <ol>
+              <li>Install <code>CameraWebSocketPlugin.lua</code> in the Roblox Studio Plugins folder, or install the distributed plugin version.</li>
+              <li>Restart Studio and open <strong>Plugins → Camera Tracker</strong>.</li>
+              <li>Select <strong>Address</strong> and enter the phone IP, optionally followed by the port. For example: <code>192.168.0.110:9003</code>.</li>
+              <li>Select <strong>Tracking</strong>. The plugin connects to the phone and takes control of the Studio viewport camera.</li>
+              <li>Press <strong>Zero pose</strong> in the app to establish the tracker's origin at the intended camera start.</li>
+            </ol>
+            <div class="guide-figure-grid">
+              <figure><img src="../assets/guides/13b_roblox_plugin_toolbar.png" alt="Camera Tracker toolbar in Roblox Studio with Tracking, Address, and Import Path actions" loading="lazy"><figcaption>The Studio toolbar provides Tracking, Address, and Import Path.</figcaption></figure>
+              <figure><img src="../assets/guides/13c_roblox_address_dialog.png" alt="Roblox Studio Camera Tracker phone address dialog" loading="lazy"><figcaption>Enter the phone address once; the plugin remembers it.</figcaption></figure>
+            </div>
+          </section>
+
+          <section id="play">
+            <h2>Use tracking in Play mode</h2>
+            <p>Studio hides plugin toolbars while a game is running. Set the address and enable tracking in edit mode first, then enter Play. Press <strong>F8</strong> to toggle tracking from the Play client.</p>
+            <p>When tracking starts in Play, the phone's origin is anchored at the local character's root. Pressing Zero in the app places the virtual camera at that anchor while preserving the phone's live movement and orientation.</p>
+            <div class="guide-note"><strong>Camera control is restored</strong><p>When tracking stops or the connection drops, the plugin restores the previous camera mode and field of view. Restart Studio if an interrupted session ever leaves the viewport camera locked.</p></div>
+          </section>
+
+          <section id="bake">
+            <h2>Bake a recorded take into the place</h2>
+            <ol>
+              <li>Record a take in 6DoF Camera Tracker.</li>
+              <li>Open the take's menu and choose <strong>Export Roblox Json</strong>.</li>
+              <li>Transfer the JSON file to the computer.</li>
+              <li>In Studio, open <strong>Plugins → Camera Tracker → Import Path</strong> and select the exported file.</li>
+              <li>Review the created path and playback script, then save the place.</li>
+            </ol>
+            <figure class="guide-figure"><img src="../assets/guides/13d_roblox_import_path_dialog.png" alt="Roblox Studio dialog for importing a recorded camera path" loading="lazy"><figcaption>Import Path converts the recorded phone movement into content stored with the place.</figcaption></figure>
+          </section>
+
+          <section id="troubleshooting">
+            <h2>Troubleshooting</h2>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
+              <tr><td>Connection error or repeated retry</td><td>Confirm the phone is streaming, the IP and port are correct, and both devices use the same network.</td></tr>
+              <tr><td>Too many WebStream clients</td><td>Wait for the plugin to retry; restart Studio if stale clients do not clear.</td></tr>
+              <tr><td>No toolbar during Play</td><td>This is expected. Use F8 in the Play client.</td></tr>
+              <tr><td>Camera is stuck at world zero</td><td>Remove older camera-control scripts or RemoteEvents that may still be writing the camera.</td></tr>
+              <tr><td>FOV does not change</td><td>Calibrate zoom in the app so the WebSocket payload includes a physical field of view.</td></tr>
+              <tr><td>No depth of field</td><td>Calibrate both focus and iris.</td></tr>
+            </tbody></table></div>
+          </section>
+        </article>
+      </div>
+
+      <nav class="guide-pagination" aria-label="Guide navigation"><a href="motionbuilder.html">Previous: MotionBuilder</a><a href="obs-studio.html">Next: OBS Studio</a></nav>
+    </main>
+
+    <footer class="site-footer"><span>Copyright 2026 Tech Story</span><span class="footer-links"><a href="../6dof-live-tracker.html">Product</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span></footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

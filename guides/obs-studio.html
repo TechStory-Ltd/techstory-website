@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Connect OBS Studio to 6DoF Camera Tracker | Tech Story</title>
+    <meta name="description" content="Send the OBS Studio program view to 6DoF Camera Tracker using native WHIP or NDI with the DistroAV plugin.">
+    <link rel="canonical" href="https://techstory.org.uk/guides/obs-studio.html">
+    <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
+    <link rel="stylesheet" href="../styles.css?v=20261003-5">
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="../index.html" aria-label="Tech Story home"><span class="brand-mark" aria-hidden="true"><img src="../assets/techstory-mark.svg?v=3" alt=""></span><span>Tech Story</span></a>
+      <nav class="nav" aria-label="Primary navigation"><a href="../products.html" aria-current="page">Products</a><a href="../index.html#services">Services</a><a href="../index.html#workflows">Workflows</a><a href="../index.html#clients">Clients</a><a href="../index.html#contact">Contact</a></nav>
+      <a class="header-action" href="https://play.google.com/apps/testing/com.techstory.livetracker" target="_blank" rel="noopener noreferrer">Join open beta</a>
+    </header>
+
+    <main class="guide-page">
+      <section class="guide-hero">
+        <nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="../6dof-live-tracker.html">6DoF Camera Tracker</a><span>/</span><a href="index.html">Guides</a><span>/</span><span>OBS Studio</span></nav>
+        <p class="eyebrow">OBS Studio guide</p>
+        <h1>Send the OBS program view to your phone</h1>
+        <p class="guide-dek">Use OBS Studio as the return viewfinder for 6DoF Camera Tracker. Connect directly with WHIP, or publish an NDI source with the DistroAV plugin.</p>
+        <div class="guide-meta"><span>WHIP</span><span>NDI</span><span>Preview input</span></div>
+      </section>
+
+      <div class="guide-layout">
+        <aside class="guide-toc" aria-label="On this page">
+          <strong>On this page</strong>
+          <a href="#requirements">Requirements</a>
+          <a href="#choose">Choose WHIP or NDI</a>
+          <a href="#phone">Prepare the phone</a>
+          <a href="#whip">Option 1: WHIP</a>
+          <a href="#ndi">Option 2: NDI</a>
+          <a href="#verify">Verify the viewfinder</a>
+          <a href="#troubleshooting">Troubleshooting</a>
+        </aside>
+
+        <article class="guide-article">
+          <section id="requirements">
+            <h2>What you need</h2>
+            <ul>
+              <li>An Android phone running 6DoF Camera Tracker.</li>
+              <li>A computer running OBS Studio.</li>
+              <li>The phone and computer connected to the same Wi-Fi or wired local network.</li>
+              <li>For the NDI option only: a compatible version of the <a href="https://distroav.org/" target="_blank" rel="noopener noreferrer">DistroAV plugin and NDI runtime</a>.</li>
+            </ul>
+            <div class="guide-note"><strong>This is the return video path</strong><p>OBS sends its program picture to the phone. Camera position, rotation, and lens values still use a separate FreeD, OSC, or WebSocket connection when your production needs tracking data.</p></div>
+          </section>
+
+          <section id="choose">
+            <h2>Choose WHIP or NDI</h2>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Option</th><th>Best for</th><th>Trade-off</th></tr></thead><tbody>
+              <tr><td>WHIP</td><td>The simplest setup. OBS supports it directly, so no additional plugin is required.</td><td>Usually a little more latency than NDI, but decoding is hardware accelerated on supported phones.</td></tr>
+              <tr><td>NDI</td><td>A responsive local-network preview when low latency is the priority.</td><td>Requires DistroAV and uses noticeably more phone CPU and battery.</td></tr>
+            </tbody></table></div>
+            <p>Start with WHIP unless your workflow needs the lower latency of NDI or already uses NDI across the production network.</p>
+          </section>
+
+          <section id="phone">
+            <h2>Prepare the phone</h2>
+            <ol>
+              <li>Open <strong>Settings → View / Preview Input</strong> in 6DoF Camera Tracker.</li>
+              <li>For WHIP, keep the default listen port <strong>8189</strong> unless it conflicts with another service.</li>
+              <li>For NDI, use <strong>Refresh sources</strong> after the OBS output has been enabled.</li>
+              <li>Return to the tracker and select <strong>OBS</strong> for WHIP or <strong>NDI</strong> for the DistroAV connection.</li>
+            </ol>
+            <figure class="guide-figure"><img src="../assets/guides/11a_view_preview_input.png" alt="View and Preview Input settings for OBS WHIP and NDI in 6DoF Camera Tracker" loading="lazy"><figcaption>The app shows the exact WHIP URL for the current phone and lets you discover an NDI source on the local network.</figcaption></figure>
+          </section>
+
+          <section id="whip">
+            <h2>Option 1: Connect with WHIP</h2>
+            <ol>
+              <li>On the phone, select the <strong>OBS</strong> viewfinder mode. The status should say that it is listening and waiting for OBS.</li>
+              <li>Copy the Server URL shown under <strong>Settings → View / Preview Input</strong>. It looks like <code>http://192.168.1.50:8189/whip</code>.</li>
+              <li>In OBS, open <strong>Settings → Stream</strong> and choose <strong>WHIP</strong> as the service.</li>
+              <li>Paste the phone's address into <strong>Server</strong> and leave <strong>Bearer Token</strong> blank.</li>
+              <li>Select <strong>Apply</strong>, close Settings, and choose <strong>Start Streaming</strong>.</li>
+            </ol>
+            <p>OBS now publishes its program output directly to the phone. The stream stops when you choose <strong>Stop Streaming</strong> in OBS or leave OBS mode in the app.</p>
+            <figure class="guide-figure"><img src="../assets/guides/11b_obs_whip_viewfinder.png" alt="OBS WHIP program feed displayed in the 6DoF Camera Tracker viewfinder" loading="lazy"><figcaption>WHIP needs no OBS plugin. Use the URL displayed by the phone and leave the bearer token empty.</figcaption></figure>
+            <p>For the current OBS controls and platform notes, see the official <a href="https://obsproject.com/kb/whip-streaming-guide" target="_blank" rel="noopener noreferrer">OBS WHIP streaming guide</a>.</p>
+          </section>
+
+          <section id="ndi">
+            <h2>Option 2: Connect with DistroAV NDI</h2>
+            <ol>
+              <li>Install the current DistroAV release that matches your OBS version, including the required NDI runtime, then restart OBS.</li>
+              <li>In OBS, open <strong>Tools → DistroAV NDI Settings</strong>.</li>
+              <li>Enable <strong>Main Output</strong> and give it a recognisable NDI name, such as <code>OBS Program</code>.</li>
+              <li>On the phone, open <strong>Settings → View / Preview Input</strong> and select <strong>Refresh sources</strong>.</li>
+              <li>Choose the named OBS source, return to the tracker, and select the <strong>NDI</strong> viewfinder mode.</li>
+            </ol>
+            <p>DistroAV publishes the OBS program output while Main Output is enabled; the normal OBS Start Streaming button is not required for this local NDI path.</p>
+            <figure class="guide-figure"><img src="../assets/guides/11c_ndi_viewfinder.png" alt="DistroAV NDI program feed displayed in the 6DoF Camera Tracker viewfinder" loading="lazy"><figcaption>NDI can reduce preview latency, but it consumes more CPU and battery on the phone than WHIP.</figcaption></figure>
+            <p>Learn more at <a href="https://ndi.video" target="_blank" rel="noopener noreferrer">ndi.video</a>. NDI® is a registered trademark of Vizrt NDI AB.</p>
+          </section>
+
+          <section id="verify">
+            <h2>Verify the viewfinder</h2>
+            <ol>
+              <li>Switch between two OBS scenes and confirm the phone follows the program output.</li>
+              <li>Move graphics or a camera source and check that frames continue updating smoothly.</li>
+              <li>Start camera tracking and confirm the chosen FreeD, OSC, or WebSocket output continues independently of the OBS preview.</li>
+              <li>Lock the phone screen orientation you plan to use before the production starts.</li>
+            </ol>
+          </section>
+
+          <section id="troubleshooting">
+            <h2>Troubleshooting</h2>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
+              <tr><td>WHIP stays on “waiting for OBS”</td><td>Confirm OBS is streaming, the Server URL matches the phone exactly, the bearer token is blank, and both devices are on the same network.</td></tr>
+              <tr><td>OBS cannot connect to the WHIP URL</td><td>Select OBS mode on the phone first, confirm port 8189 is available, and allow OBS through the computer's private-network firewall.</td></tr>
+              <tr><td>No NDI sources appear</td><td>Enable DistroAV Main Output, select Refresh sources, keep both devices on the same subnet, and allow multicast or mDNS traffic on the network.</td></tr>
+              <tr><td>NDI source appears but has no picture</td><td>Confirm the selected source name matches the active OBS Main Output and that DistroAV loaded successfully after OBS restarted.</td></tr>
+              <tr><td>Tracking becomes less stable in NDI mode</td><td>Use WHIP, reduce the OBS output resolution or frame rate, or move NDI decoding to a more powerful phone.</td></tr>
+            </tbody></table></div>
+          </section>
+        </article>
+      </div>
+
+      <nav class="guide-pagination" aria-label="Guide navigation"><a href="roblox-studio.html">Previous: Roblox Studio</a><a href="index.html">All guides</a></nav>
+    </main>
+
+    <footer class="site-footer"><span>Copyright 2026 Tech Story</span><span class="footer-links"><a href="../6dof-live-tracker.html">Product</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span></footer>
+    <script src="../script.js"></script>
+  </body>
+</html>
