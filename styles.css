@@ -981,6 +981,15 @@ h3 {
   line-height: 1.5;
 }
 
+.guide-figure-native img {
+  width: auto;
+  height: auto;
+}
+
+.guide-figure-native figcaption {
+  max-width: 32.8125rem;
+}
+
 .guide-figure-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
