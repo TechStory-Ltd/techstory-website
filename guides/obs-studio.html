@@ -33,6 +33,7 @@
           <a href="#phone">Prepare the phone</a>
           <a href="#whip">Option 1: WHIP</a>
           <a href="#ndi">Option 2: NDI</a>
+          <a href="#responsiveness">Reduce preview lag</a>
           <a href="#verify">Verify the viewfinder</a>
           <a href="#troubleshooting">Troubleshooting</a>
         </aside>
@@ -62,24 +63,26 @@
             <h2>Prepare the phone</h2>
             <ol>
               <li>Open <strong>Settings → View / Preview Input</strong> in 6DoF Camera Tracker.</li>
+              <li>Enable <strong>OBS / WHIP</strong>, <strong>NDI</strong>, or both, depending on the return-video methods you want to use.</li>
               <li>For WHIP, keep the default listen port <strong>8189</strong> unless it conflicts with another service.</li>
               <li>For NDI, use <strong>Refresh sources</strong> after the OBS output has been enabled.</li>
               <li>Return to the tracker and select <strong>OBS</strong> for WHIP or <strong>NDI</strong> for the DistroAV connection.</li>
             </ol>
-            <figure class="guide-figure"><img src="../assets/guides/11a_view_preview_input.png" alt="View and Preview Input settings for OBS WHIP and NDI in 6DoF Camera Tracker" loading="lazy"><figcaption>The app shows the exact WHIP URL for the current phone and lets you discover an NDI source on the local network.</figcaption></figure>
+            <figure class="guide-figure guide-figure-native"><img src="../assets/guides/11a_view_preview_input.png?v=2" alt="Updated View and Preview Input settings for OBS WHIP and NDI in 6DoF Camera Tracker" loading="lazy"><figcaption>Enable the required viewfinder modes, choose the WHIP listen port, and discover an NDI source on the local network.</figcaption></figure>
           </section>
 
           <section id="whip">
             <h2>Option 1: Connect with WHIP</h2>
             <ol>
               <li>On the phone, select the <strong>OBS</strong> viewfinder mode. The status should say that it is listening and waiting for OBS.</li>
-              <li>Copy the Server URL shown under <strong>Settings → View / Preview Input</strong>. It looks like <code>http://192.168.1.50:8189/whip</code>.</li>
+              <li>Build the Server URL from the phone's local IP address and the <strong>Listen port</strong> shown under <strong>Settings → View / Preview Input</strong>. It follows the format <code>http://PHONE_IP:8189/whip</code>.</li>
               <li>In OBS, open <strong>Settings → Stream</strong> and choose <strong>WHIP</strong> as the service.</li>
               <li>Paste the phone's address into <strong>Server</strong> and leave <strong>Bearer Token</strong> blank.</li>
               <li>Select <strong>Apply</strong>, close Settings, and choose <strong>Start Streaming</strong>.</li>
             </ol>
+            <figure class="guide-figure"><img src="../assets/guides/obs_whip_stream_settings.png" alt="OBS Stream settings configured for the WHIP service and the phone server address" loading="lazy"><figcaption>Select WHIP, enter the URL built from the phone IP and listen port, and leave Bearer Token empty.</figcaption></figure>
             <p>OBS now publishes its program output directly to the phone. The stream stops when you choose <strong>Stop Streaming</strong> in OBS or leave OBS mode in the app.</p>
-            <figure class="guide-figure"><img src="../assets/guides/11b_obs_whip_viewfinder.png" alt="OBS WHIP program feed displayed in the 6DoF Camera Tracker viewfinder" loading="lazy"><figcaption>WHIP needs no OBS plugin. Use the URL displayed by the phone and leave the bearer token empty.</figcaption></figure>
+            <figure class="guide-figure"><img src="../assets/guides/11b_obs_whip_viewfinder.png" alt="OBS WHIP program feed displayed in the 6DoF Camera Tracker viewfinder" loading="lazy"><figcaption>WHIP needs no OBS plugin. Use the phone IP and listen port in the server URL, and leave the bearer token empty.</figcaption></figure>
             <p>For the current OBS controls and platform notes, see the official <a href="https://obsproject.com/kb/whip-streaming-guide" target="_blank" rel="noopener noreferrer">OBS WHIP streaming guide</a>.</p>
           </section>
 
@@ -87,14 +90,31 @@
             <h2>Option 2: Connect with DistroAV NDI</h2>
             <ol>
               <li>Install the current DistroAV release that matches your OBS version, including the required NDI runtime, then restart OBS.</li>
-              <li>In OBS, open <strong>Tools → DistroAV NDI Settings</strong>.</li>
-              <li>Enable <strong>Main Output</strong> and give it a recognisable NDI name, such as <code>OBS Program</code>.</li>
+              <li>In the OBS main menu, open <strong>Tools → DistroAV NDI Settings</strong>.</li>
+              <li>Tick the checkbox beside <strong>Main Output</strong> and give it a recognisable NDI name, such as <code>OBS PGM</code>.</li>
               <li>On the phone, open <strong>Settings → View / Preview Input</strong> and select <strong>Refresh sources</strong>.</li>
               <li>Choose the named OBS source, return to the tracker, and select the <strong>NDI</strong> viewfinder mode.</li>
             </ol>
+            <div class="guide-figure-grid">
+              <figure><img src="../assets/guides/obs_distroav_tools_menu.png" alt="DistroAV NDI Settings command in the OBS Tools menu" loading="lazy"><figcaption>After installation, open DistroAV NDI Settings from the OBS Tools menu.</figcaption></figure>
+              <figure><img src="../assets/guides/obs_distroav_main_output.png" alt="Main Output enabled in the DistroAV NDI Settings window" loading="lazy"><figcaption>Enable Main Output and choose the NDI source name that the phone will discover.</figcaption></figure>
+            </div>
             <p>DistroAV publishes the OBS program output while Main Output is enabled; the normal OBS Start Streaming button is not required for this local NDI path.</p>
             <figure class="guide-figure"><img src="../assets/guides/11c_ndi_viewfinder.png" alt="DistroAV NDI program feed displayed in the 6DoF Camera Tracker viewfinder" loading="lazy"><figcaption>NDI can reduce preview latency, but it consumes more CPU and battery on the phone than WHIP.</figcaption></figure>
             <p>Learn more at <a href="https://ndi.video" target="_blank" rel="noopener noreferrer">ndi.video</a>. NDI® is a registered trademark of Vizrt NDI AB.</p>
+          </section>
+
+          <section id="responsiveness">
+            <h2>Reduce preview lag</h2>
+            <p>A smaller video frame and a lower frame rate reduce the amount of data OBS must encode, send across the network, and decode on the phone. This can make either WHIP or NDI feel more responsive, especially on busy Wi-Fi or less powerful phones.</p>
+            <ol>
+              <li>In OBS, open <strong>Settings → Video</strong>.</li>
+              <li>Keep <strong>Base (Canvas) Resolution</strong> at the size needed for your OBS composition.</li>
+              <li>Lower <strong>Output (Scaled) Resolution</strong>. <strong>640 × 360</strong> is a practical starting point for a phone viewfinder.</li>
+              <li>Set <strong>Common FPS Values</strong> to <strong>25</strong> or <strong>30</strong>, then apply the settings and test the response on the phone.</li>
+            </ol>
+            <div class="guide-note"><strong>Balance responsiveness and clarity</strong><p>Lower settings use less bandwidth and processing power, but fine details become harder to judge and fast motion looks less smooth. Increase the resolution or frame rate only as far as the phone and network can handle reliably.</p></div>
+            <figure class="guide-figure"><img src="../assets/guides/obs_video_responsiveness.png" alt="OBS Video settings with a 640 by 360 scaled resolution and 25 frames per second" loading="lazy"><figcaption>Reducing the scaled output to 640 × 360 at 25 fps is a useful starting point when the return viewfinder feels delayed.</figcaption></figure>
           </section>
 
           <section id="verify">
