@@ -22,7 +22,8 @@
         <p class="eyebrow">MotionBuilder guide</p>
         <h1>Connect with the OSC Camera Tracker device</h1>
         <p class="guide-dek">Stream camera transform and lens data from the Android app into Autodesk MotionBuilder, bind it to a camera, and record the incoming movement as animation keys.</p>
-        <p><a class="guide-all-link" href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin" target="_blank" rel="noopener noreferrer">View the plugin and source code on GitHub →</a></p>
+        <p><a class="guide-all-link" href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">Download the MotionBuilder plugin →</a></p>
+        <p><a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin" target="_blank" rel="noopener noreferrer">View source code and build instructions on GitHub</a></p>
         <div class="guide-meta"><span>OSC</span><span>MotionBuilder device</span><span>Live recording</span></div>
       </section>
 
@@ -47,17 +48,19 @@
               <li>A Windows workstation running Autodesk MotionBuilder.</li>
               <li>An Android phone running 6DoF Camera Tracker.</li>
               <li>The phone and workstation connected to the same local network.</li>
-              <li>The <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin" target="_blank" rel="noopener noreferrer">Tech Story MotionBuilder camera plugin</a>.</li>
+              <li>The <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">Tech Story MotionBuilder camera plugin installer or binary</a> from GitHub Releases.</li>
             </ul>
-            <div class="guide-note"><strong>Match the plugin to MotionBuilder</strong><p>The supplied plugin targets MotionBuilder 2025 by default. The installer can place compatible builds into selected MotionBuilder installations, and the open-source project can be built against another installed OpenReality SDK when required.</p></div>
+            <div class="guide-note"><strong>Match the plugin to MotionBuilder</strong><p>Releases include binaries for multiple MotionBuilder versions. Choose the build that matches your installed version, or use the installer to place compatible builds into the selected MotionBuilder installations.</p></div>
           </section>
 
           <section id="install">
             <h2>Install the plugin</h2>
+            <p><a class="guide-all-link" href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">Open GitHub Releases to download the installer or plugin binary →</a></p>
             <ol>
-              <li>Download the current package from the <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin" target="_blank" rel="noopener noreferrer">GitHub repository</a>.</li>
+              <li>Open the latest entry on the <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">GitHub Releases page</a> and expand its <strong>Assets</strong> list.</li>
+              <li>Download <code>Setup_TechStoryOSCCamera_MoBu.exe</code> for the guided installation, or the matching <code>device_oscCamera.dll</code> for a manual installation.</li>
               <li>Run <code>Setup_TechStoryOSCCamera_MoBu.exe</code> and select the MotionBuilder versions where the device should be installed. Administrator permission is required for the standard Program Files location.</li>
-              <li>For a manual installation, copy <code>device_oscCamera.dll</code> into the matching MotionBuilder plugin folder, such as <code>C:\Program Files\Autodesk\MotionBuilder 2025\bin\x64\plugins</code>.</li>
+              <li>For a manual installation, copy <code>device_oscCamera.dll</code> into the <code>bin\x64\plugins</code> folder of the matching MotionBuilder installation.</li>
               <li>Restart MotionBuilder after installation.</li>
             </ol>
             <div class="guide-note warning"><strong>The binary must match the MotionBuilder SDK version</strong><p>If the device does not appear after a manual copy, confirm that the DLL was built for that MotionBuilder release and architecture.</p></div>
@@ -208,7 +211,7 @@
               <tr><td>An axis moves in the wrong direction</td><td>Return the app to Default mapping first, then use the device Position Sign or Rotation Sign for a deliberate per-axis flip.</td></tr>
               <tr><td>Lens response is incorrect</td><td>Calibrate the physical channel in the app or configure the matching Raw Range and Output Range on the device.</td></tr>
             </tbody></table></div>
-            <p>For source code, build instructions, current plugin files, and issue reporting, visit the <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin" target="_blank" rel="noopener noreferrer">mobu-device-camera-plugin repository</a>.</p>
+            <p>Download installers and prebuilt binaries from <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a>. For source code, build instructions, and issue reporting, visit the <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin" target="_blank" rel="noopener noreferrer">mobu-device-camera-plugin repository</a>.</p>
           </section>
         </article>
       </div>
