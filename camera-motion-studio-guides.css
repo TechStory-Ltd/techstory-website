@@ -1,0 +1,19 @@
+/* Keep the preview guides' new code examples within the reading column. */
+.guide-article pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  line-height: 1.6;
+}
+
+.guide-article pre code {
+  padding: 0;
+  background: transparent;
+}
+
+.guide-article :not(pre) > code {
+  overflow-wrap: anywhere;
+}

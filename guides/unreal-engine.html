@@ -3,11 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Connect 6DoF Camera Tracker to Unreal Engine | Tech Story</title>
-    <meta name="description" content="Connect 6DoF Camera Tracker to an Unreal Engine CineCamera using FreeD and Live Link, then add the optional Pixel Streaming viewfinder.">
+    <title>Connect Camera Motion Studio to Unreal Engine | Tech Story</title>
+    <meta name="description" content="Drive a Cine Camera from your phone with Unreal Live Link FreeD, then explore beta Sequencer controls, scene markers, and a return viewfinder.">
     <link rel="canonical" href="https://techstory.org.uk/guides/unreal-engine.html">
+    <meta property="og:title" content="Connect Camera Motion Studio to Unreal Engine | Tech Story">
+    <meta property="og:description" content="Drive a Cine Camera from your phone with Unreal Live Link FreeD, then explore beta Sequencer controls, scene markers, and a return viewfinder.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techstory.org.uk/guides/unreal-engine.html">
     <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
-    <link rel="stylesheet" href="../styles.css?v=20261003-5">
+    <link rel="stylesheet" href="../styles.css?v=20261013-1">
+    <link rel="stylesheet" href="../camera-motion-studio-guides.css?v=20261102-1">
   </head>
   <body>
     <header class="site-header" data-header>
@@ -18,106 +23,72 @@
 
     <main class="guide-page">
       <section class="guide-hero">
-        <nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="../6dof-live-tracker.html">6DoF Camera Tracker</a><span>/</span><a href="index.html">Guides</a><span>/</span><span>Unreal Engine</span></nav>
+        <nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="../camera-motion-studio.html">Camera Motion Studio</a><span>/</span><a href="index.html">Guides</a><span>/</span><span>Unreal Engine</span></nav>
         <p class="eyebrow">Unreal Engine guide</p>
-        <h1>Connect with FreeD and Live Link</h1>
-        <p class="guide-dek">Send position, rotation, and lens data from an Android phone to a CineCamera actor, then use Unreal Pixel Streaming as an optional return viewfinder.</p>
-        <div class="guide-meta"><span>FreeD</span><span>About 15 minutes</span></div>
+        <h1>Drive a Cine Camera from your phone</h1>
+        <p class="guide-dek">Unreal's built-in Live Link FreeD source receives camera movement and lens data without a custom camera plugin. An optional beta editor plugin adds rig setup, phone control of Sequencer and Take Recorder, and scene markers that return to the phone.</p>
+        <div class="guide-meta"><span>Live Link FreeD</span><span>Cine Camera</span><span>Optional editor plugin beta</span></div>
       </section>
 
       <div class="guide-layout">
-        <aside class="guide-toc" aria-label="On this page">
-          <strong>On this page</strong>
-          <a href="#requirements">Requirements</a>
-          <a href="#unreal-setup">Unreal setup</a>
-          <a href="#app-setup">App setup</a>
-          <a href="#camera">Drive the camera</a>
-          <a href="#verify">Verify tracking</a>
-          <a href="#viewfinder">Unreal viewfinder</a>
-          <a href="#troubleshooting">Troubleshooting</a>
-        </aside>
-
+        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#paths">Choose a setup</a><a href="#phone">Set up the phone</a><a href="#freed">Connect Live Link</a><a href="#lens">Align lens data</a><a href="#plugin">Editor plugin beta</a><a href="#buttons">Phone buttons</a><a href="#markers">Scene markers</a><a href="#viewfinder">Return viewfinder</a><a href="#checks">Connection checks</a></aside>
         <article class="guide-article">
-          <section id="requirements">
-            <h2>What you need</h2>
-            <ul>
-              <li>An ARCore-capable Android phone running 6DoF Camera Tracker.</li>
-              <li>A Windows computer running Unreal Engine with a project containing a CineCamera actor.</li>
-              <li>The phone and computer on the same local network.</li>
-              <li>A UDP port available for the FreeD source. Use the same port in Unreal and the app.</li>
-            </ul>
-            <div class="guide-note"><strong>Tracking and video are separate connections</strong><p>FreeD carries camera and lens data into Unreal. Pixel Streaming sends rendered video back to the phone. Complete tracking first, then add the viewfinder.</p></div>
+          <section id="paths">
+            <h2>Choose your setup</h2>
+            <p><strong>Camera only:</strong> use Unreal's built-in Live Link, Live Link Camera, and Live Link FreeD plugins. FreeD carries position, rotation, zoom, focus, and iris from the phone to a Cine Camera. The camera stream and markers are available in Lite, limited to five minutes per session at up to 30 Hz.</p>
+            <p><strong>Editor workflow beta:</strong> the optional content-only <strong>Camera Motion Studio Link</strong> plugin adds a LiveTracker menu, an automatic FreeD source, a ready-to-bind camera rig, OSC transport commands, and actor markers. It is editor-only; a packaged game needs its own Blueprint integration.</p>
+            <div class="guide-note warning"><strong>Beta availability</strong><p>There is no public plugin download linked from this guide. <a href="mailto:contact@techstory.org.uk?subject=Unreal%20Camera%20Motion%20Studio%20Link%20beta">Contact Tech Story to request the Unreal editor plugin beta</a>. You can set up the camera with built-in FreeD without it.</p></div>
           </section>
-
-          <section id="unreal-setup">
-            <h2>Prepare Unreal Engine</h2>
-            <ol>
-              <li>Open <strong>Edit → Plugins</strong> and enable <strong>Live Link</strong> and <strong>Live Link FreeD</strong>. Restart the editor if requested.</li>
-              <li>Open the Live Link panel from Unreal's Virtual Production tools.</li>
-              <li>Add a <strong>FreeD</strong> source and choose a UDP port that is not already in use.</li>
-              <li>Allow Unreal Engine through Windows Firewall on private networks when prompted.</li>
-            </ol>
-            <p>The Live Link source should remain visible even before packets arrive. Its subject becomes active when the phone starts streaming.</p>
+          <section id="phone">
+            <h2>Set up the phone</h2>
+            <p>In Camera Motion Studio's setup wizard, choose <strong>Unreal Engine</strong> and enter the Unreal workstation's local IP address and FreeD UDP port (usually <code>40000</code>). The wizard selects FreeD and enables the available UE, OBS, and NDI return-viewfinder modes.</p>
+            <p>Check <strong>Settings &gt; Stream</strong>: Protocol <strong>FreeD</strong>, Target IP = the workstation, Port = the FreeD source's port, Camera ID <strong>1</strong>, and Unicast. Keep <strong>Default</strong> axis mapping and <strong>Space scale 1</strong>. FreeD already converts metres to its wire units; another space scale makes the camera travel too far or too little.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/05_connecting_to_receiver.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot at full size"><img src="../assets/guides/05_connecting_to_receiver.png" alt="Earlier Camera Motion Studio stream settings showing a receiver address and port" loading="lazy"></a><figcaption>Match the phone's destination to the Unreal computer and FreeD source. This capture is from an earlier app build.</figcaption></figure>
           </section>
-
-          <section id="app-setup">
-            <h2>Configure the Android app</h2>
-            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Setting</th><th>Recommended value</th><th>Reason</th></tr></thead><tbody>
-              <tr><td>Protocol</td><td>FreeD</td><td>Native camera-tracking path for Unreal Live Link.</td></tr>
-              <tr><td>Target IP</td><td>Unreal computer's local IPv4 address</td><td>Sends directly to the workstation.</td></tr>
-              <tr><td>Target port</td><td>Same port as the FreeD source</td><td>Both ends must match.</td></tr>
-              <tr><td>Send mode</td><td>Unicast</td><td>Lowest-overhead choice on a normal Wi-Fi network.</td></tr>
-              <tr><td>Axis mapping</td><td>Default preset</td><td>Starts with the app's Unreal-oriented coordinate mapping.</td></tr>
-              <tr><td>Space scale</td><td>1</td><td>Keep the physical tracking scale unchanged initially.</td></tr>
-            </tbody></table></div>
-            <figure class="guide-figure"><img src="../assets/guides/05_connecting_to_receiver.png" alt="6DoF Camera Tracker stream settings for configuring a receiver" loading="lazy"><figcaption>Set the Unreal computer address, the matching UDP port, and FreeD before starting the stream.</figcaption></figure>
+          <section id="freed">
+            <h2>Connect Live Link FreeD</h2>
+            <ol><li>In Unreal, enable <strong>Live Link</strong>, <strong>Live Link Camera</strong>, and <strong>Live Link FreeD</strong> under <strong>Edit &gt; Plugins</strong>, then restart if requested.</li><li>Open <strong>Window &gt; Live Link</strong> and add a <strong>LiveLinkFreeD Source</strong>. Listen on <code>0.0.0.0</code> at the phone's Target Port. Allow Unreal through the workstation firewall for that UDP port.</li><li>Add a <strong>Cine Camera Actor</strong> and a <strong>Live Link Controller</strong> component. Set its Subject Representation to the FreeD subject, usually <strong>Camera 1</strong>.</li><li>Start tracking and streaming on the phone. Move it to check the camera response, then use <strong>Zero pose</strong> to align the starting heading. If Scout is enabled, Zero keeps its placement; use <strong>Fly home</strong> to return the fly/look offset to its base.</li></ol>
+            <p>The stream contains the final camera movement after the app's Scout / Fly offset, rigs, effects, and aim controls. Unreal receives the camera you operated, not just raw sensor values. Verify right, forward, up, and the rotation axes separately before recording a shot.</p>
           </section>
-
-          <section id="camera">
-            <h2>Drive a CineCamera actor</h2>
-            <ol>
-              <li>Add or select a <strong>CineCameraActor</strong> in the level.</li>
-              <li>Add a <strong>Live Link Controller</strong> component to the camera.</li>
-              <li>Select the subject created by the FreeD source and use the camera role/controller available in your Unreal version.</li>
-              <li>Start tracking in the app, set the phone down at the intended origin, and press <strong>Zero pose</strong>.</li>
-              <li>Calibrate zoom, focus, or iris in the app before expecting physical lens values in Unreal.</li>
-            </ol>
-            <div class="guide-note warning"><strong>Do not compensate twice</strong><p>Start with the app's Default mapping and neutral offsets. If one axis is reversed, correct it in one place only: either the app mapping preset or the Unreal camera setup.</p></div>
+          <section id="lens">
+            <h2>Align lens data</h2>
+            <p>Calibrate zoom, focus, and iris in the phone's <strong>Settings &gt; Lens</strong> for physical focal length, focus distance, and f-stop values. Unreal's stock Live Link FreeD source normalizes incoming encoder numbers; it does not automatically treat a calibrated phone value as the final lens value.</p>
+            <ol><li>In the FreeD source's <strong>Source Settings</strong>, enable manual ranges for focal length and the user-defined iris channel, with <strong>Is Valid</strong> enabled. Configure focus separately below. Set their ranges to the app's calibrated physical range multiplied by <code>1000</code> (for example, 24-85 mm becomes 24000-85000). Set the iris field's mask to <code>0xFFFF</code>.</li><li>On the Live Link Camera Controller, use the camera range and match the Cine Camera's focal-length and f-stop limits to the app's physical ranges.</li><li>Check the resulting zoom and aperture on the camera. Focus uses a different stock mapping with a fixed far bound; use the focus setup below instead of assuming the calibrated near/far range reconstructs the distance.</li></ol>
+            <p>For stock FreeD focus, calibrate focus on the phone and enable <strong>Remap to default UE Focus Range</strong> under Lens. Set <strong>UE near focus (m)</strong> to the Cine Camera's near bound (default <code>0.015</code>). Use the fixed focus encoder Min/Max shown by the app, normally <code>15</code> and <code>1000000</code>, with Is Valid and manual range enabled; do not subtract the near bound again in Unreal. The app applies an empirical correction. Verify displayed distance against a known scene target on your engine version. Custom lens setups can instead use a Lens File focus curve; do not combine recipes without checking the result.</p>
+            <div class="guide-note"><strong>Iris and depth of field</strong><p>Iris travels in FreeD's 16-bit user-defined field. For visible depth of field, the Live Link source must recognise the aperture channel and the Unreal scene must have depth of field enabled.</p></div>
           </section>
-
-          <section id="verify">
-            <h2>Verify one axis at a time</h2>
-            <ol>
-              <li>Move the phone right, forward, and up separately. Confirm the virtual camera follows each direction.</li>
-              <li>Turn right, tilt up, and roll clockwise separately. Check for the expected response without cross-axis movement.</li>
-              <li>Walk a measured distance and confirm the virtual translation matches the stage scale.</li>
-              <li>Stop and restart the stream to confirm the source reconnects cleanly.</li>
-            </ol>
+          <section id="plugin">
+            <h2>Optional editor plugin beta</h2>
+            <p>If you have the <strong>LiveTrackerLink</strong> beta folder, place it in the Unreal project's <code>Plugins</code> directory and reopen the project. The content-only plugin enables its Live Link and Python dependencies. In an open level, choose <strong>LiveTracker &gt; Set up camera rig in this level</strong>. It creates a <code>LiveTracker_Origin</code> and Cine Camera with a Live Link controller on <strong>Camera 1</strong>, and adds the FreeD source when the project opens.</p>
+            <p><strong>LiveTracker &gt; Status</strong> is designed to report the listening ports, last phone buttons, source, rig, and marker activity. The plugin stores port and phone settings in <code>Saved/LiveTracker/settings.json</code>; restart the link after changing them. Save the level yourself after creating the rig.</p>
           </section>
-
+          <section id="buttons">
+            <h2>Run Sequencer from the phone</h2>
+            <p>The phone's <strong>OSC buttons</strong> are a Pro feature. They use a separate UDP port (for example, <code>8000</code>) and work while the camera itself streams FreeD. Set the app's OSC port to the plugin's <code>osc_port</code>; allow that port through the workstation firewall.</p>
+            <p>The beta plugin handles play, stop, record, go to start or end, and step forward or back for Sequencer and Take Recorder. It ignores repeated copies of one press. Buttons can be used while the FreeD pose stream is stopped.</p>
+          </section>
+          <section id="markers">
+            <h2>Send scene markers to the phone</h2>
+            <p>The beta plugin can tag up to 16 actors and send their shapes and positions back to the phone's read-only <strong>Live scene</strong>. This gives the operator points to aim at and hold focus on. Marker positions are relative to <code>LiveTracker_Origin</code>; place it where phone tracking began.</p>
+            <ol><li>On the phone, enable <strong>Settings &gt; Stream &gt; Scene link &gt; Accept a marker link</strong>.</li><li>In the plugin settings, set <code>phone_ip</code> to the phone's address. The default marker link port is <code>4001</code>.</li><li>In Unreal, select actors and choose <strong>LiveTracker &gt; Markers &gt; Add selected actors</strong>. Approve the connection on the phone. Use the phone's Scene tab to confirm the Live scene appears.</li></ol>
+            <p>Actors can hold <strong>Focus</strong>, <strong>Aim</strong>, and <strong>Ref</strong> together, using separate <code>TrackerRole</code> tags or a list such as <code>TrackerRole:Focus,Ref</code>. Role menu items toggle that role while retaining the others; each role still belongs to one actor. Ref follows position, or position plus heading, according to the plugin setting. FreeD continues to carry the final world camera from the phone; it does not perform receiver-local reconstruction.</p>
+            <div class="guide-note warning"><strong>Test marker placement before a shoot</strong><p>Keep the phone on Default axis mapping. With FreeD, Unreal receives no marker-link acknowledgement, so check status on the phone.</p></div>
+          </section>
           <section id="viewfinder">
-            <h2>Add the Unreal viewfinder</h2>
-            <p>Once tracking works, configure Unreal Pixel Streaming and enter its signalling-server address under <strong>Settings → View / Preview Input</strong>. Switch the viewfinder to <strong>UE</strong> to see the rendered camera feed while the app continues sending FreeD.</p>
-            <figure class="guide-figure"><img src="../assets/guides/10_ue_pixel_streaming.png" alt="Unreal Pixel Streaming viewfinder configuration in 6DoF Camera Tracker" loading="lazy"><figcaption>The UE viewfinder is a return video path; it does not replace the FreeD tracking connection.</figcaption></figure>
+            <h2>See Unreal's picture on the phone</h2>
+            <p>The return image is independent of FreeD tracking and OSC buttons. For Unreal Pixel Streaming, run its signalling server, enter the server address under <strong>Settings &gt; View / Preview Input</strong>, and choose the <strong>UE</strong> viewfinder mode. If the editor crashes with H264, try VP9 encoding on the Unreal side.</p>
+            <p>You can also capture Unreal in OBS Studio and send its output to the phone over WHIP or NDI. <a class="guide-all-link" href="obs-studio.html">Follow the OBS viewfinder guide &rarr;</a></p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/10_ue_pixel_streaming.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot at full size"><img src="../assets/guides/10_ue_pixel_streaming.png" alt="Earlier phone view showing an Unreal Pixel Streaming return image" loading="lazy"></a><figcaption>An Unreal return viewfinder from an earlier app build.</figcaption></figure>
           </section>
-
-          <section id="troubleshooting">
-            <h2>Troubleshooting</h2>
-            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
-              <tr><td>No Live Link subject</td><td>Confirm the target IP, matching UDP port, private-network firewall permission, and that streaming is running.</td></tr>
-              <tr><td>Rotation works but position does not</td><td>Use ARCore rather than IMU-only tracking and confirm camera permission and tracking status.</td></tr>
-              <tr><td>Wrong axis or direction</td><td>Reset the app to the Default axis preset, then adjust only the incorrect channel.</td></tr>
-              <tr><td>Lens values do not change</td><td>Enable and calibrate the required lens channel in the app.</td></tr>
-              <tr><td>UE viewfinder is blank</td><td>Test the Pixel Streaming URL separately and remember that tracking can work without return video.</td></tr>
-            </tbody></table></div>
+          <section id="checks">
+            <h2>Connection checks</h2>
+            <ul><li>No Live Link subject: check the phone's Target IP, matching FreeD port, active stream, shared network, and Unreal firewall permission.</li><li>Camera travel is too large or small: restore app Space scale <strong>1</strong> and Default axis mapping.</li><li>Lens response differs from the phone: align Live Link FreeD encoder ranges and the Cine Camera's lens limits; check the app's UE focus remap and matching fixed source range, or your Lens File curve.</li><li>Buttons do nothing: confirm Pro, the phone's OSC port, the plugin's <code>osc_port</code>, firewall permission, and that the editor link is running.</li><li>Markers do not appear: check the phone's scene-link switch, <code>phone_ip</code>, port <code>4001</code>, the Allow prompt, and the phone's Scene tab.</li></ul>
           </section>
         </article>
       </div>
-
       <nav class="guide-pagination" aria-label="Guide navigation"><a href="index.html">All guides</a><a href="motionbuilder.html">Next: MotionBuilder</a></nav>
     </main>
-
-    <footer class="site-footer"><span>Copyright 2026 Tech Story</span><span class="footer-links"><a href="../6dof-live-tracker.html">Product</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span></footer>
+    <footer class="site-footer"><span>Copyright 2026 Tech Story</span><span class="footer-links"><a href="../camera-motion-studio.html">Camera Motion Studio</a><a href="index.html">All guides</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span></footer>
     <script src="../script.js"></script>
   </body>
 </html>

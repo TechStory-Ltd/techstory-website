@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Connect Camera Motion Studio to Blender | Tech Story</title>
+    <meta name="description" content="Drive a Blender camera from your phone, record timed keyframes, control the timeline, and try scene markers with Camera Motion Studio.">
+    <link rel="canonical" href="https://techstory.org.uk/guides/blender.html">
+    <meta property="og:title" content="Connect Camera Motion Studio to Blender | Tech Story">
+    <meta property="og:description" content="Drive a Blender camera from your phone, record timed keyframes, control the timeline, and try scene markers with Camera Motion Studio.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techstory.org.uk/guides/blender.html">
+    <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
+    <link rel="stylesheet" href="../styles.css?v=20261013-1">
+    <link rel="stylesheet" href="../camera-motion-studio-guides.css?v=20261102-1">
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="../index.html" aria-label="Tech Story home"><span class="brand-mark" aria-hidden="true"><img src="../assets/techstory-mark.svg?v=3" alt=""></span><span>Tech Story</span></a>
+      <nav class="nav" aria-label="Primary navigation"><a href="../products.html" aria-current="page">Products</a><a href="../index.html#services">Services</a><a href="../index.html#workflows">Workflows</a><a href="../index.html#clients">Clients</a><a href="../index.html#contact">Contact</a></nav>
+      <a class="header-action" href="https://play.google.com/apps/testing/com.techstory.livetracker" target="_blank" rel="noopener noreferrer">Join open beta</a>
+    </header>
+
+    <main class="guide-page">
+      <section class="guide-hero">
+        <nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="../camera-motion-studio.html">Camera Motion Studio</a><span>/</span><a href="index.html">Guides</a><span>/</span><span>Blender</span></nav>
+        <p class="eyebrow">Blender beta guide</p>
+        <h1>Drive a Blender camera from your phone</h1>
+        <p class="guide-dek">Move the camera live, record its movement as timed keyframes, and run Blender's timeline from the phone. Camera Tracker Link carries calibrated lens values and links scene markers for focus, aim, and reference cameras.</p>
+        <p><a class="guide-all-link" href="mailto:contact@techstory.org.uk?subject=Blender%20Camera%20Tracker%20Link%20beta">Request the Blender add-on beta &rarr;</a></p>
+        <div class="guide-meta"><span>Blender 4.2+</span><span>OSC over UDP</span><span>Timed recording</span></div>
+      </section>
+
+      <div class="guide-layout">
+        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#prepare">Before you start</a><a href="#install">Install the add-on</a><a href="#phone">Set up the phone</a><a href="#connect">Connect in Blender</a><a href="#lens">Calibrate the lens</a><a href="#record">Record a take</a><a href="#buttons">Phone transport</a><a href="#markers">Scene markers beta</a><a href="#reference">Reference camera</a><a href="#checks">Connection checks</a></aside>
+        <article class="guide-article">
+          <section id="prepare">
+            <h2>Before you start</h2>
+            <p>You need Blender 4.2 or newer, an Android phone running Camera Motion Studio, and a shared local network. Camera Tracker Link is currently a beta add-on; <a href="mailto:contact@techstory.org.uk?subject=Blender%20Camera%20Tracker%20Link%20beta">contact Tech Story for the installable zip</a>. There is no public download linked from this guide.</p>
+            <p>Use matching current app and add-on builds: the current camera message includes both local and world poses, and an older receiver cannot read it. The add-on is plain Python with no extra dependencies. It is designed for Windows, macOS, and Linux; development and testing so far have been on Windows with Blender 4.2 and 5.2.</p>
+          </section>
+          <section id="install">
+            <h2>Install Camera Tracker Link</h2>
+            <ol><li>In Blender, open <strong>Edit &gt; Preferences &gt; Get Extensions</strong>.</li><li>Open the menu in the top right, choose <strong>Install from Disk</strong>, and select the add-on zip.</li><li>Enable Camera Tracker Link after installing the extension. It listens on the local network; allow Blender through the computer firewall if needed.</li></ol>
+          </section>
+          <section id="phone">
+            <h2>Set up the phone stream</h2>
+            <p>In the setup wizard, choose <strong>Blender</strong>. It selects OSC and unicast, pre-fills port <code>4000</code>, and keeps position units in metres. Enter the computer's local address as <strong>Target IP</strong>. The wizard also enables the OBS and NDI return-viewfinder options.</p>
+            <p>You can verify or change these values later under <strong>Settings &gt; Stream</strong>: <strong>Protocol = OSC</strong>, <strong>Target IP</strong> = the computer running Blender, <strong>Port</strong> = the add-on's listening port, and <strong>Camera ID</strong> = the ID selected in Blender. The default Camera ID is 1.</p>
+          </section>
+          <section id="connect">
+            <h2>Connect the camera in Blender</h2>
+            <ol><li>Open a 3D viewport, press <strong>N</strong>, and select the <strong>Tracker Link</strong> tab. Its <strong>Phone Target IP</strong> is the address to enter on the phone.</li><li>Choose an unparented camera to drive (or leave it empty for the scene camera). Set the add-on's <strong>Port</strong> and <strong>Camera ID</strong> to match the phone; <code>-1</code> accepts any camera ID.</li><li>Press <strong>Start</strong> in Blender, then start streaming on the phone. The panel shows incoming pose rate and network jitter.</li><li>Place an <strong>Origin</strong> object where the shot should begin, hold the phone at its starting pose, and press <strong>Zero</strong>. Move the Origin later to re-place the shot.</li></ol>
+            <figure class="guide-figure guide-figure-native"><a href="../assets/camera-motion-studio/blender-receiving.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot at full size"><img src="../assets/camera-motion-studio/blender-receiving.png" alt="Camera Tracker Link panel receiving tracking data in Blender" loading="lazy"></a><figcaption>Earlier receiver panel. Use the current add-on for Reference-local camera and the updated marker controls.</figcaption></figure>
+          </section>
+          <section id="lens">
+            <h2>Calibrate the lens</h2>
+            <p>In the phone's <strong>Settings &gt; Lens</strong>, calibrate zoom, focus, and iris. Camera Tracker Link sets Blender's sensor size from the app; calibrated zoom drives focal length, while calibrated focus and iris can drive depth of field. Uncalibrated channels are ignored. Enable <strong>Depth of field</strong> in the add-on Lens panel to drive focus and iris; this option starts off. If a Blender Focus Object is set, it takes precedence over numeric focus distance.</p>
+            <p>To see depth of field, look through the camera in Material Preview or Rendered mode, or enable Depth of Field in Solid viewport shading.</p>
+          </section>
+          <section id="record">
+            <h2>Record a timed take</h2>
+            <p>Press <strong>Record</strong> in Tracker Link, or use the phone's OSC record button with Pro. Blender plays its timeline and keys the camera's position, rotation, and any driven lens values on each frame. Stop recording manually or let the playback range end.</p>
+            <p>Every phone pose includes its sensor capture time. The add-on places samples on that timeline and displays them with a short adjustable <strong>Latency</strong> (60 ms by default) to hide Wi-Fi jitter. Recording uses those capture times to space keys evenly rather than keying packets as they happen to arrive. <strong>Sync offset</strong> can shift a take to align it with delayed video or audio.</p>
+            <figure class="guide-figure guide-figure-native"><a href="../assets/camera-motion-studio/blender-dopesheet.png" target="_blank" rel="noopener noreferrer" aria-label="Open the recorded keyframes screenshot at full size"><img src="../assets/camera-motion-studio/blender-dopesheet.png" alt="Camera movement recorded as keyframes in Blender's Dope Sheet" loading="lazy"></a><figcaption>A recorded camera take in the Dope Sheet. Open the image to inspect the keys.</figcaption></figure>
+            <div class="guide-note"><strong>For a take independent of Wi-Fi</strong><p>Record locally on the phone and export afterwards. This avoids missing live network packets. The Blender add-on's live recording is useful for immediate editing in the scene, while phone-side recording preserves the source take.</p></div>
+            <p>While streaming, Tracker Link drives the camera transform every update; existing camera animation can fight the live view. Recording over frames that already contain keys replaces those keys.</p>
+            <p>For FBX, calibrate the lens before recording and use the take's available <strong>As streamed</strong> export options to preserve the operated rig/look-at result. Effects and smoothing options can change the exported movement. With app Space scale 1, add-on Position scale 1, FBX Position scale 1 and Blender Metric Unit Scale 1 / import Scale 1, use the documented unit setup. New FBX exports carry centimetre coordinates; re-export older files before retaining a compensating import scale. FBX export requires Pro and an app version that supports it.</p>
+          </section>
+          <section id="buttons">
+            <h2>Run the timeline from the phone</h2>
+            <p>With <strong>Pro</strong>, the OSC buttons can play, stop, record, jump to the start or end of the playback range, and step a frame. Under <strong>Settings &gt; OSC buttons</strong>, set their destination to the Blender computer and their OSC port to the add-on listening port, normally <code>4000</code>.</p>
+            <p>The buttons use their own OSC connection, independently of the camera protocol. Keep the Blender receiver running with <strong>Phone buttons</strong> enabled; the pose stream can be stopped while you rewind or prepare a take.</p>
+            <p>Lite includes pose, lens, and markers, with pose sessions up to five minutes at 30 Hz. Pro removes that time cap and supports up to 60 Hz.</p>
+          </section>
+          <section id="markers">
+            <h2>Send scene markers to the phone</h2>
+            <p>Camera Tracker Link can send marked Blender objects, collections, and armature bones back to the phone as a read-only <strong>Live scene</strong>. The operator can use them for aiming and focus while the markers follow Blender's animation.</p>
+            <ol><li>On the phone, enable <strong>Settings &gt; Stream &gt; Scene link &gt; Accept a marker link</strong>.</li><li>In Blender's <strong>Scene markers</strong> panel, select objects and choose <strong>Mark selected</strong>. Bone markers can be added from an armature's Tracker marker panel.</li><li>Start the OSC receiver, choose <strong>Link markers to the phone</strong>, then approve the connection on the phone.</li></ol>
+            <figure class="guide-figure guide-figure-native"><a href="../assets/camera-motion-studio/blender-markers.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot at full size"><img src="../assets/camera-motion-studio/blender-markers.png" alt="Scene markers panel in the Blender Camera Tracker Link add-on" loading="lazy"></a><figcaption>Earlier marker panel; current builds have separate Focus, Aim, and Ref switches.</figcaption></figure>
+            <div class="guide-note warning"><strong>Marker and reference beta</strong><p>Use Default axis mapping and check placement before relying on it in a shot.</p></div>
+          </section>
+          <section id="reference">
+            <h2>Ride a scene reference</h2>
+            <p>In Scene markers, give a marker <strong>Ref</strong> and use a <strong>Point</strong> or <strong>Base</strong> anchor. Choose position follow or position plus heading. A marker can hold <strong>Focus</strong>, <strong>Aim</strong>, and <strong>Ref</strong> together; each role still belongs to one marker.</p>
+            <p><strong>Reference-local camera</strong> is enabled by default; restart the receiver after changing it. For supported references, Blender interpolates the local camera motion and places it against the current scene reference. Hold, replay, stale links and unsupported reference operations use the enclosed world pose. Disabling the option also uses that world pose.</p>
+            <p>Receiver recordings always key the phone world camera. A live reference preview and the recorded take can therefore differ if the reference was delayed. Marker animation is not recorded with the phone take, and reference changes can cause a correction. This workflow uses an unparented camera; it does not implement a parented recording rig.</p>
+          </section>
+          <section id="checks">
+            <h2>Connection checks</h2>
+            <p>If nothing arrives, compare the add-on's <strong>Phone Target IP</strong> with the app's Target IP, check the matching UDP port and Camera ID, and confirm the phone is streaming OSC rather than FreeD. The panel distinguishes a wrong ID, a stopped stream, and no packets. Allow Blender through the computer's firewall on the network used by the phone.</p>
+          </section>
+        </article>
+      </div>
+      <nav class="guide-pagination" aria-label="Guide navigation"><a href="index.html">All guides</a><a href="index.html">Other connection guides</a></nav>
+    </main>
+    <footer class="site-footer"><span>Copyright 2026 Tech Story</span><span class="footer-links"><a href="../camera-motion-studio.html">Camera Motion Studio</a><a href="index.html">All guides</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span></footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

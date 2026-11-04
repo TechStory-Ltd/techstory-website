@@ -3,11 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Connect 6DoF Camera Tracker to MotionBuilder | Tech Story</title>
-    <meta name="description" content="Install the Tech Story OSC Camera Tracker Device and stream live camera transform, lens data, and recorded takes from 6DoF Camera Tracker into Autodesk MotionBuilder.">
+    <title>Connect Camera Motion Studio to MotionBuilder | Tech Story</title>
+    <meta name="description" content="Drive a MotionBuilder camera from your phone, record tracked motion, control transport, and send scene markers back to Camera Motion Studio.">
     <link rel="canonical" href="https://techstory.org.uk/guides/motionbuilder.html">
+    <meta property="og:title" content="Connect Camera Motion Studio to MotionBuilder | Tech Story">
+    <meta property="og:description" content="Drive a MotionBuilder camera from your phone, record tracked motion, control transport, and send scene markers back to Camera Motion Studio.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techstory.org.uk/guides/motionbuilder.html">
     <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
-    <link rel="stylesheet" href="../styles.css?v=20261004-1">
+    <link rel="stylesheet" href="../styles.css?v=20261013-1">
+    <link rel="stylesheet" href="../camera-motion-studio-guides.css?v=20261102-1">
   </head>
   <body>
     <header class="site-header" data-header>
@@ -18,208 +23,83 @@
 
     <main class="guide-page">
       <section class="guide-hero">
-        <nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="../6dof-live-tracker.html">6DoF Camera Tracker</a><span>/</span><a href="index.html">Guides</a><span>/</span><span>MotionBuilder</span></nav>
+        <nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="../camera-motion-studio.html">Camera Motion Studio</a><span>/</span><a href="index.html">Guides</a><span>/</span><span>MotionBuilder</span></nav>
         <p class="eyebrow">MotionBuilder guide</p>
-        <h1>Connect with the OSC Camera Tracker device</h1>
-        <p class="guide-dek">Stream camera transform and lens data from the Android app into Autodesk MotionBuilder, bind it to a camera, and record the incoming movement as animation keys.</p>
-        <p><a class="guide-all-link" href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">Download the MotionBuilder plugin →</a></p>
-        <p><a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin" target="_blank" rel="noopener noreferrer">View source code and build instructions on GitHub</a></p>
-        <div class="guide-meta"><span>OSC</span><span>MotionBuilder device</span><span>Live recording</span></div>
+        <h1>A tracked camera for MotionBuilder</h1>
+        <p class="guide-dek">Move a camera from your phone, record sensor-timed animation, and operate MotionBuilder's transport from the set. Send scene markers back to the phone for aiming and focus.</p>
+        <p><a class="guide-all-link" href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">Download the MotionBuilder plugin from GitHub Releases &rarr;</a></p>
+        <div class="guide-meta"><span>Windows</span><span>OSC over UDP</span><span>Camera and lens</span><span>Live recording</span></div>
       </section>
 
       <div class="guide-layout">
-        <aside class="guide-toc" aria-label="On this page">
-          <strong>On this page</strong>
-          <a href="#requirements">Requirements</a>
-          <a href="#install">Install the plugin</a>
-          <a href="#device">Add the device</a>
-          <a href="#app-setup">Configure the app</a>
-          <a href="#connect">Connect a camera</a>
-          <a href="#lens">Lens and depth of field</a>
-          <a href="#phone-viewfinder">View MotionBuilder on the phone</a>
-          <a href="#record">Record a take</a>
-          <a href="#troubleshooting">Troubleshooting</a>
-        </aside>
-
+        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#prepare">Before you start</a><a href="#install">Install the plugin</a><a href="#phone">Set up the phone</a><a href="#connect">Connect the camera</a><a href="#lens">Lens and sensor</a><a href="#record">Record a take</a><a href="#remote">Phone transport</a><a href="#markers">Scene markers</a><a href="#reference">Roles and reference</a><a href="#viewfinder">Return viewfinder</a><a href="#checks">Connection checks</a></aside>
         <article class="guide-article">
-          <section id="requirements">
-            <h2>What you need</h2>
-            <ul>
-              <li>A Windows workstation running Autodesk MotionBuilder.</li>
-              <li>An Android phone running 6DoF Camera Tracker.</li>
-              <li>The phone and workstation connected to the same local network.</li>
-              <li>The <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">Tech Story MotionBuilder camera plugin installer or binary</a> from GitHub Releases.</li>
-            </ul>
-            <div class="guide-note"><strong>Match the plugin to MotionBuilder</strong><p>Releases include binaries for multiple MotionBuilder versions. Choose the build that matches your installed version, or use the installer to place compatible builds into the selected MotionBuilder installations.</p></div>
+          <section id="prepare">
+            <h2>Before you start</h2>
+            <p>You need Camera Motion Studio on an Android phone, MotionBuilder on a Windows workstation, and both devices on the same local network. Install the plugin version that matches your MotionBuilder installation and keep it up to date alongside the phone app.</p>
+            <div class="guide-note"><strong>Camera Motion Studio plans</strong><p>Lite includes live pose, lens, and scene markers, with sessions up to five minutes at 30 Hz. Pro adds unlimited sessions, streaming up to 60 Hz, OSC transport buttons, and phone-side FBX export. The MotionBuilder plugin is separate from the app plan.</p></div>
           </section>
-
           <section id="install">
             <h2>Install the plugin</h2>
-            <p><a class="guide-all-link" href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">Open GitHub Releases to download the installer or plugin binary →</a></p>
-            <ol>
-              <li>Open the latest entry on the <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">GitHub Releases page</a> and expand its <strong>Assets</strong> list.</li>
-              <li>Download <code>Setup_TechStoryOSCCamera_MoBu.exe</code> for the guided installation, or the matching <code>device_oscCamera.dll</code> for a manual installation.</li>
-              <li>Run <code>Setup_TechStoryOSCCamera_MoBu.exe</code> and select the MotionBuilder versions where the device should be installed. Administrator permission is required for the standard Program Files location.</li>
-              <li>For a manual installation, copy <code>device_oscCamera.dll</code> into the <code>bin\x64\plugins</code> folder of the matching MotionBuilder installation.</li>
-              <li>Restart MotionBuilder after installation.</li>
-            </ol>
-            <div class="guide-note warning"><strong>The binary must match the MotionBuilder SDK version</strong><p>If the device does not appear after a manual copy, confirm that the DLL was built for that MotionBuilder release and architecture.</p></div>
+            <ol><li>Open the <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">plugin's GitHub Releases</a> page and expand the release's <strong>Assets</strong>.</li><li>Run <code>Setup_TechStoryOSCCamera_MoBu.exe</code> and select the installed MotionBuilder version, or place the matching <code>device_oscCamera.dll</code> in that version's <code>bin\x64\plugins</code> folder.</li><li>Restart MotionBuilder. In <strong>Asset Browser &gt; Templates &gt; Devices</strong>, drag <strong>OSC Camera Tracker Device</strong> into the scene.</li></ol>
+            <div class="guide-note warning"><strong>Match the binary to the installed version</strong><p>Choose the release asset built for your MotionBuilder version; one DLL should not be assumed to work across versions.</p></div>
+            <figure class="guide-figure guide-figure-native"><a href="../assets/guides/mobu_screenshot_asset.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot at full size"><img src="../assets/guides/mobu_screenshot_asset.png" alt="OSC Camera Tracker Device in MotionBuilder's Asset Browser" loading="lazy"></a><figcaption>Add the device from Templates &gt; Devices.</figcaption></figure>
           </section>
-
-          <section id="device">
-            <h2>Add the OSC Camera Tracker device</h2>
-            <ol>
-              <li>In the Asset Browser, open <strong>Templates → Devices</strong>.</li>
-              <li>Drag <strong>OSC Camera Tracker Device</strong> into the scene.</li>
-              <li>Select the device under <strong>Navigator → Devices</strong>.</li>
-              <li>On the <strong>General</strong> tab, set <strong>Sampling Rate</strong> to the rate used by the Android app. The read-only <strong>Receive Rate (Hz)</strong> property shows the measured incoming rate once streaming begins.</li>
-            </ol>
-            <div class="guide-figure-grid">
-              <figure><img src="../assets/guides/mobu_screenshot_asset.png" alt="OSC Camera Tracker Device in the MotionBuilder Asset Browser" loading="lazy"><figcaption>Drag OSC Camera Tracker Device from Templates → Devices into the scene.</figcaption></figure>
-              <figure><img src="../assets/guides/mobu_screenshot_ui_general.png" alt="General settings for the OSC Camera Tracker Device in MotionBuilder" loading="lazy"><figcaption>Match the device sampling rate to the stream rate used by the phone.</figcaption></figure>
-            </div>
+          <section id="phone">
+            <h2>Set up the phone</h2>
+            <p>In Camera Motion Studio's setup wizard, select <strong>MotionBuilder</strong> and enter the workstation's local IP address and the plugin's UDP port (default <code>4000</code>). The wizard selects <strong>OSC</strong>, <strong>Unicast</strong>, and app <strong>Space scale 100</strong>, and enables the OBS and NDI return-viewfinder options.</p>
+            <p>For manual setup, use <strong>Settings &gt; Stream</strong> with OSC, the same Target IP and Port, and Unicast. Keep the app's <strong>Default</strong> axis mapping. With app Space scale <strong>100</strong>, explicitly set the device's <strong>Space Scale</strong> to <strong>1</strong>; its current default is <strong>10</strong>, intended for app scale 10. The alternative is app scale <strong>1</strong> and device scale <strong>100</strong>; apply the metres-to-centimetres conversion only once.</p>
           </section>
-
-          <section id="app-setup">
-            <h2>Configure the phone and UDP port</h2>
-            <h3>Use the setup wizard</h3>
-            <p>The app can fill in the recommended MotionBuilder streaming settings for you. Run the setup wizard when the app first opens, or start it again later with the wand button.</p>
-            <ol>
-              <li>Select <strong>MotionBuilder</strong> when the wizard asks where you are streaming.</li>
-              <li>Enter the MotionBuilder workstation's local IP address and the UDP port used by the plugin. The default port is <strong>4000</strong>.</li>
-              <li>Continue through the wizard to apply OSC, Unicast, Default axis mapping, and the recommended space scale automatically.</li>
-            </ol>
-            <div class="guide-figure-grid">
-              <figure><img src="../assets/guides/mobu_setup_wizard_start.png" alt="6DoF Camera Tracker setup wizard start screen" loading="lazy"><figcaption>Run the setup wizard to let the app configure the tracker for you.</figcaption></figure>
-              <figure><img src="../assets/guides/mobu_setup_wizard_target.png" alt="MotionBuilder selected in the 6DoF Camera Tracker setup wizard" loading="lazy"><figcaption>Select MotionBuilder, then enter the workstation IP address and matching UDP port.</figcaption></figure>
-            </div>
-
-            <h3>Or configure it manually</h3>
-            <p>Open the device's <strong>Communication</strong> tab and choose a UDP port. The default is <strong>4000</strong>. Use the same value as the app's Target Port.</p>
-            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>App setting</th><th>Recommended value</th><th>Matching device setting</th></tr></thead><tbody>
-              <tr><td>Protocol</td><td>OSC</td><td>The device accepts the app's OSC pose, lens, and diagnostics messages.</td></tr>
-              <tr><td>Target IP</td><td>MotionBuilder workstation's local IPv4 address</td><td>The device listens on the workstation.</td></tr>
-              <tr><td>Target Port</td><td>4000, or another unused UDP port</td><td>Communication → UDP Port must match.</td></tr>
-              <tr><td>Send mode</td><td>Unicast</td><td>Sends directly to the MotionBuilder workstation.</td></tr>
-              <tr><td>Axis mapping</td><td>Default</td><td>The plugin converts X-right, Y-forward, Z-up into MotionBuilder coordinates.</td></tr>
-              <tr><td>Space scale</td><td>1</td><td>Use device Space Scale 100 to convert metres to centimetres.</td></tr>
-              <tr><td>Stream rate</td><td>Your intended scene or capture rate</td><td>Set the same General → Sampling Rate.</td></tr>
-            </tbody></table></div>
-            <div class="guide-figure-grid">
-              <figure><img src="../assets/guides/mobu_phone_osc_stream.png" alt="6DoF Camera Tracker Stream settings with OSC and Unicast selected" loading="lazy"><figcaption>Set the MotionBuilder workstation address and matching UDP port, then select OSC and Unicast.</figcaption></figure>
-              <figure><img src="../assets/guides/mobu_screenshot_ui_communication.png" alt="Communication settings for the OSC Camera Tracker Device" loading="lazy"><figcaption>The device binds the port when it goes Online. Toggle it offline and online after changing the port.</figcaption></figure>
-            </div>
-            <p>If you prefer the app's Space scale set to <strong>100</strong>, set the device's <strong>Space Scale</strong> to <strong>1</strong> instead. Apply the centimetre conversion in one place only.</p>
-          </section>
-
           <section id="connect">
-            <h2>Put the device online and bind a camera</h2>
-            <ol>
-              <li>Start the OSC stream in 6DoF Camera Tracker.</li>
-              <li>Enable <strong>Online</strong> on the MotionBuilder device. Its status changes from <strong>Listening on UDP port…</strong> to <strong>Receiving data</strong> when valid poses arrive.</li>
-              <li>Open <strong>Model binding</strong> on the device.</li>
-              <li>Create or select a camera and bind it to the device's <strong>Camera</strong> template.</li>
-              <li>Press <strong>Zero pose</strong> in the app at the intended origin and verify the camera follows the phone.</li>
-            </ol>
-            <figure class="guide-figure"><img src="../assets/guides/mobu_screenshot_stream_online.png" alt="OSC Camera Tracker Device online and receiving data in MotionBuilder" loading="lazy"><figcaption>The online device drives the bound camera transform and connects supported lens channels automatically.</figcaption></figure>
-            <div class="guide-note"><strong>Coordinate conversion is built in</strong><p>With the app's Default axis mapping, the device converts the right-handed tracker frame into MotionBuilder's X-forward, Y-up, Z-right frame. Use Position Sign or Rotation Sign only when a custom mapping needs a per-axis correction.</p></div>
+            <h2>Connect the camera</h2>
+            <ol><li>Select the device under <strong>Navigator &gt; Devices</strong>. In <strong>Communication</strong>, match its <strong>UDP Port</strong> to the phone's Target Port. In <strong>General</strong>, set <strong>Sampling Rate</strong> to the phone's stream rate and keep <strong>Sampling Type</strong> at <code>kFBHardwareTimestamp</code>.</li><li>Put the device <strong>Online</strong> and start streaming on the phone. Status changes from <strong>Listening on UDP port</strong> to <strong>Receiving data</strong>.</li><li>In <strong>Model binding</strong>, pick or create a camera and bind it to the <strong>Camera</strong> template. Zero the phone pose at your intended starting position.</li></ol>
+            <figure class="guide-figure"><a href="../assets/guides/mobu_screenshot_stream_online.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot at full size"><img src="../assets/guides/mobu_screenshot_stream_online.png" alt="MotionBuilder OSC camera device online and receiving phone tracking" loading="lazy"></a><figcaption>Earlier online-device capture. Current builds add adaptive playback and reference-camera diagnostics.</figcaption></figure>
+            <p>The default <strong>Playback Mode: Auto</strong> adjusts delay to network jitter. Defaults are <strong>Balanced</strong> responsiveness, <strong>Playback Delay 0 ms</strong> as the minimum and <strong>Max Auto Delay 60 ms</strong>. <strong>Fixed delay</strong> uses a chosen delay; at 0 it extrapolates the latest sample. <strong>Newest sample</strong> shows the newest received pose without interpolation or extrapolation. Watch <strong>Delay In Use</strong> and <strong>Frames I/E/H</strong> to see the result.</p>
           </section>
-
           <section id="lens">
-            <h2>Use lens data and depth of field</h2>
-            <h3>Calibrate lens encoders in the app</h3>
-            <p>Open <strong>Lens &amp; encoders</strong> in 6DoF Camera Tracker to convert raw encoder readings into physical lens values before they are sent to MotionBuilder.</p>
-            <ol>
-              <li>Enter the encoder's <strong>Min</strong>, <strong>Max</strong>, and <strong>Step</strong> values for each connected lens control.</li>
-              <li>Enable <strong>Calibrate</strong> for zoom and enter the lens's minimum and maximum focal length in millimetres.</li>
-              <li>Set the corresponding calibration values for focus and iris when those channels are in use.</li>
-              <li>Move each control through its range and confirm that the values reported by the app match the physical lens.</li>
-            </ol>
-
-            <h3>Adjust lens values from the Lens panel</h3>
-            <p>While tracking or streaming, open the <strong>Lens</strong> tab on the main screen to control the virtual lens directly from the phone.</p>
-            <ul>
-              <li><strong>Zoom</strong> adjusts focal length in millimetres.</li>
-              <li><strong>Focus</strong> adjusts focus distance in metres.</li>
-              <li><strong>Iris</strong> adjusts the lens aperture as an f-number.</li>
-            </ul>
-            <p>The displayed values use the calibration ranges configured in <strong>Lens &amp; encoders</strong> and are included in the live OSC stream.</p>
-            <div class="guide-figure-grid">
-              <figure><img src="../assets/guides/mobu_phone_lens_calibration.png" alt="Lens encoder and zoom calibration settings in 6DoF Camera Tracker" loading="lazy"><figcaption>Map each encoder range to the physical zoom, focus, or iris values of the lens.</figcaption></figure>
-              <figure><img src="../assets/guides/mobu_phone_lens_panel.png" alt="Zoom, focus, and iris controls on the 6DoF Camera Tracker Lens panel" loading="lazy"><figcaption>Adjust the calibrated zoom, focus, and iris values from the Lens panel while streaming.</figcaption></figure>
-            </div>
-
-            <h3>Use the calibrated values in MotionBuilder</h3>
-            <p>Zoom, focus, and iris channels calibrated in the app arrive as physical values. Uncalibrated channels can be remapped with the device's <strong>Raw Range</strong> and <strong>Output Range</strong> properties.</p>
-            <ol>
-              <li>Enable <strong>Use Depth of Field</strong> in the MotionBuilder camera's Render Options.</li>
-              <li>The device drives camera focal length, <strong>Specific distance</strong>, and <strong>Focus angle</strong>.</li>
-              <li>Adjust <strong>Focus Angle Scale</strong> if the calculated focus cone needs scene-specific tuning.</li>
-              <li>Use the separate Iris output in a relation constraint when another effect needs the incoming f-number.</li>
-            </ol>
-            <p>Open the device's properties to inspect the incoming focal length, focus distance, iris, and focus angle. The same panel provides raw and output ranges for channels that are not calibrated in the phone app.</p>
-            <figure class="guide-figure guide-figure-native"><img src="../assets/guides/mobu_screenshot_properties.png" alt="OSC Camera Tracker Device properties in MotionBuilder" loading="lazy"><figcaption>Review connection, scale, channel mapping, and live lens values in the device properties.</figcaption></figure>
-            <figure class="guide-figure"><img src="../assets/guides/mobu_screenshot_camera_lens.png" alt="MotionBuilder camera depth of field driven by the OSC Camera Tracker Device" loading="lazy"><figcaption>The camera's depth-of-field distance and focus angle can follow the calibrated lens stream.</figcaption></figure>
+            <h2>Lens and sensor size</h2>
+            <p>Calibrate zoom, focus, and iris in the phone's <strong>Settings &gt; Lens</strong>. The device uses calibrated zoom as focal length and focus as distance; its focus angle drives MotionBuilder's depth-of-field cone when <strong>Use Depth of Field</strong> is enabled on the camera. Iris arrives as a separate f-number output for a relation constraint. Uncalibrated channels can instead be mapped with the device's <strong>Raw Range</strong> and <strong>Output Range</strong> properties.</p>
+            <p>With <strong>Apply Sensor Size</strong> on, the plugin also sets the bound camera's film back to the sensor size sent by the app. This keeps the field of view aligned with the phone's 3D view.</p>
+            <figure class="guide-figure guide-figure-native"><a href="../assets/guides/mobu_screenshot_properties.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot at full size"><img src="../assets/guides/mobu_screenshot_properties.png" alt="MotionBuilder OSC Camera Tracker Device properties including lens values" loading="lazy"></a><figcaption>Older properties capture; current builds replace sign controls with the updated playback and reference-camera options described here.</figcaption></figure>
           </section>
-
-          <section id="phone-viewfinder">
-            <h2>View MotionBuilder on the phone</h2>
-            <p>You can use the phone as a wireless return viewfinder while it continues driving the MotionBuilder camera. The two connections work independently:</p>
-            <ul>
-              <li><strong>OSC</strong> sends tracking and lens data from 6DoF Camera Tracker to MotionBuilder.</li>
-              <li><strong>OBS Studio</strong> captures the MotionBuilder viewport and sends the resulting program view back to the phone.</li>
-            </ul>
-            <ol>
-              <li>In OBS Studio, add a Window Capture or Display Capture source containing the MotionBuilder viewport.</li>
-              <li>Frame that source in the OBS program output at the resolution and frame rate you want on the phone.</li>
-              <li>Send the OBS program output to 6DoF Camera Tracker using native WHIP or NDI through the DistroAV plugin.</li>
-              <li>On the phone, select the <strong>OBS</strong> or <strong>NDI</strong> viewfinder mode while leaving the OSC tracking stream active.</li>
-            </ol>
-            <div class="guide-note"><strong>Tracking and preview remain separate</strong><p>If the OBS return picture disconnects, the OSC camera stream can continue driving MotionBuilder. This also lets you choose WHIP for a simple setup or NDI when lower preview latency is more important.</p></div>
-            <p><a class="guide-all-link" href="obs-studio.html">Follow the OBS WHIP and NDI setup guide →</a></p>
-          </section>
-
           <section id="record">
             <h2>Record a tracked take</h2>
-            <h3>Record live in MotionBuilder</h3>
-            <ol>
-              <li>Confirm the device shows <strong>Receiving data</strong> and the camera moves correctly.</li>
-              <li>Enable <strong>Recording</strong> on the device.</li>
-              <li>Arm the camera animation nodes you want to capture and use MotionBuilder's normal transport recording controls.</li>
-              <li>Stop recording, take the device offline if you want to review without live input, and play back the take.</li>
-            </ol>
-            <p>The device records incoming poses as animation keys, so the result can be edited with the normal MotionBuilder animation workflow.</p>
-
-            <h3>Record on the phone and export FBX</h3>
-            <p>For a take that does not depend on live network delivery, record the tracked motion directly in 6DoF Camera Tracker. The app stores the tracking samples locally on the phone, and you can export the completed take as an FBX file for use in MotionBuilder.</p>
-            <ol>
-              <li>Start a local recording in 6DoF Camera Tracker before performing the camera move.</li>
-              <li>Stop and review the take on the phone.</li>
-              <li>Export the recording as <strong>FBX</strong> and transfer the file to the workstation.</li>
-              <li>Import the FBX into MotionBuilder and use the recorded camera animation in the scene.</li>
-            </ol>
-            <div class="guide-note"><strong>Avoid network packet loss</strong><p>Local recording captures the motion on the phone before any OSC packets are sent. This makes FBX export the better workflow for important takes where every recorded sample should be preserved, while live OSC remains useful for monitoring and immediate feedback.</p></div>
+            <p>Enable <strong>Recording</strong> on the online device to key the incoming camera motion. The plugin drops repeated sensor samples and creates one key per real sample at its capture time, so network arrival jitter does not become uneven key timing. Stop the device's recording and review the keys with MotionBuilder's animation tools.</p>
+            <p>For a take independent of live packet delivery, record locally in Camera Motion Studio and export FBX with Pro, then import the take into MotionBuilder. Phone-side recording preserves the source motion even if packets are lost on Wi-Fi. New exports use centimetre coordinates with unit node scale. Calibrate the lens before recording; rig/look-at, effects and smoothing choices affect what is exported. FBX export must be available in your installed app version.</p>
+            <div class="guide-note"><strong>Compare live and imported takes</strong><p>The live device multiplier and FBX export scale are separate. The wizard pair (app 100, device 1) does not establish a matching default FBX import. Check travel and calibrated focus on a known-distance take before substituting an import for live keys; changing export Position scale also changes focus distance.</p></div>
           </section>
-
-          <section id="troubleshooting">
-            <h2>Troubleshooting</h2>
-            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
-              <tr><td>Device is missing from Templates</td><td>Confirm the DLL is in the correct version's <code>bin\x64\plugins</code> folder and restart MotionBuilder. A DLL built for another SDK version may not load.</td></tr>
-              <tr><td>Status stays on “Listening” or “No data”</td><td>Confirm the workstation IP, matching UDP port, active app stream, and Windows Firewall permission. Restart Online after changing the port.</td></tr>
-              <tr><td>Receive Rate is lower than expected</td><td>Match the app stream rate and device Sampling Rate, then check Wi-Fi quality. Enable Stream diagnostics in the app to populate Lost Packets.</td></tr>
-              <tr><td>Camera movement has the wrong scale</td><td>Use app Space scale 1 with device Space Scale 100, or app 100 with device 1. Do not convert in both places.</td></tr>
-              <tr><td>An axis moves in the wrong direction</td><td>Return the app to Default mapping first, then use the device Position Sign or Rotation Sign for a deliberate per-axis flip.</td></tr>
-              <tr><td>Lens response is incorrect</td><td>Calibrate the physical channel in the app or configure the matching Raw Range and Output Range on the device.</td></tr>
-            </tbody></table></div>
-            <p>Download installers and prebuilt binaries from <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a>. For source code, build instructions, and issue reporting, visit the <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin" target="_blank" rel="noopener noreferrer">mobu-device-camera-plugin repository</a>.</p>
+          <section id="remote">
+            <h2>Run transport from the phone</h2>
+            <p>With Pro, the app's OSC buttons control <strong>play</strong>, <strong>stop</strong>, <strong>record</strong>, go to start or end, and step a frame. Under <strong>Settings &gt; OSC buttons</strong>, set their destination to the MotionBuilder workstation and their port to the device's UDP port, normally <code>4000</code>.</p>
+            <p>The device must be Online with <strong>Remote Control</strong> enabled. Buttons work independently of the camera protocol and while the pose stream is stopped. Repeated copies of a press are acted on once.</p>
+          </section>
+          <section id="markers">
+            <h2>Send scene markers to the phone</h2>
+            <p>The plugin can send MotionBuilder scene models to the phone's read-only <strong>Live scene</strong>. The operator can aim at them and hold focus on a chosen point.</p>
+            <ol><li>On the phone, enable <strong>Settings &gt; Stream &gt; Scene link &gt; Accept a marker link</strong>. Keep the OSC pose stream running so the plugin can find the phone.</li><li>In the device's <strong>Markers</strong> tab, select scene models and choose <strong>Add Selected Models</strong>. Set the shape, size, colour, and focus/aim point as needed.</li><li>Enable <strong>Send markers to the phone</strong> and tap <strong>Allow</strong> on the phone. The device's <strong>Phone Link</strong> status reports when the markers are linked.</li></ol>
+            <div class="guide-note"><strong>Marker limits</strong><p>The link sends up to 16 markers. Use the app's Default axis mapping for look-at. The device's own camera cannot be a marker.</p></div>
+          </section>
+          <section id="reference">
+            <h2>Roles and reference cameras</h2>
+            <p>The current Markers table has independent <strong>Focus</strong>, <strong>Aim</strong>, and <strong>Ref</strong> switches. One model can hold any combination; assigning a role takes only that role off its previous model. <strong>Mirror the phone</strong> preserves combinations chosen by the operator, and <strong>Send Roles to Phone</strong> reapplies the table's assignments.</p>
+            <p>For a reference camera, assign Ref to an exported point/base anchor and choose <strong>Ref follows heading</strong> if the camera should turn with it. With <strong>Reference-Local Camera</strong> enabled, the device uses the current scene reference to place supported local poses. Reference scale and tilt are not inherited. <strong>Camera Source</strong> explains local placement or world fallback when the reference cannot be resolved, the phone sends WORLD, or the option is off.</p>
+            <p>Recorded keys always use the phone world pose, so they can differ from the current scene-reference preview.</p>
+          </section>
+          <section id="viewfinder">
+            <h2>See MotionBuilder on the phone</h2>
+            <p>Camera tracking and the return image are separate connections. Capture the MotionBuilder viewport in OBS Studio, then send the OBS program output to the phone over WHIP or NDI while OSC continues to drive the camera.</p>
+            <p><a class="guide-all-link" href="obs-studio.html">Follow the OBS viewfinder guide &rarr;</a></p>
+          </section>
+          <section id="checks">
+            <h2>Connection checks</h2>
+            <ul><li>If status stays on <strong>Listening</strong> or <strong>No data</strong>, check the workstation IP, matching UDP port, OSC stream, and firewall permission. Take the device Offline and Online again after changing its port.</li><li>If the camera scale is wrong, check the app/device Space Scale pair. Keep Default axis mapping. The current conversion uses scene X right, Y up, Z back, with camera pre-rotation handled by the plugin; there are no device sign properties.</li><li>Compare <strong>Stream rate (Hz)</strong> in the phone's Stream settings with the device's <strong>Receive Rate (Hz)</strong>. These show the actual sending and receiving rates. If the receive rate is much lower, check Wi-Fi quality and that the device's Sampling Rate matches the phone's stream rate.</li></ul>
+            <p>Update both the app and plugin if packets arrive but the camera does not move. See the <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin" target="_blank" rel="noopener noreferrer">plugin repository</a> for more information about plugin settings.</p>
           </section>
         </article>
       </div>
-
-      <nav class="guide-pagination" aria-label="Guide navigation"><a href="unreal-engine.html">Previous: Unreal Engine</a><a href="roblox-studio.html">Next: Roblox Studio</a></nav>
+      <nav class="guide-pagination" aria-label="Guide navigation"><a href="index.html">All guides</a><a href="blender.html">Next: Blender</a></nav>
     </main>
-
-    <footer class="site-footer"><span>Copyright 2026 Tech Story</span><span class="footer-links"><a href="../6dof-live-tracker.html">Product</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span></footer>
+    <footer class="site-footer"><span>Copyright 2026 Tech Story</span><span class="footer-links"><a href="../camera-motion-studio.html">Camera Motion Studio</a><a href="index.html">All guides</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span></footer>
     <script src="../script.js"></script>
   </body>
 </html>

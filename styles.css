@@ -374,7 +374,7 @@ h3 {
 .product-list {
   width: min(100% - 2rem, var(--max));
   display: grid;
-  grid-template-columns: minmax(0, 28rem);
+  grid-template-columns: repeat(2, minmax(0, 28rem));
   gap: 1rem;
   margin: 0 auto;
   padding: 0 0 clamp(5rem, 9vw, 8rem);
@@ -1272,6 +1272,7 @@ address a {
   .service-grid,
   .client-grid,
   .tool-panel,
+  .product-list,
   .tracker-feature-grid,
   .tracker-showcase,
   .workflow-images,
