@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Using Camera Motion Studio | Tech Story</title>
+    <meta name="description" content="A guide to the modes, options and features of Camera Motion Studio: tracking, Scout / Fly, camera rigs, lens control, markers, viewfinders, recording and what Lite and Pro include.">
+    <link rel="canonical" href="https://techstory.org.uk/guides/app.html">
+    <meta property="og:title" content="Using Camera Motion Studio | Tech Story">
+    <meta property="og:description" content="A guide to the modes, options and features of Camera Motion Studio: tracking, Scout / Fly, camera rigs, lens control, markers, viewfinders, recording and what Lite and Pro include.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techstory.org.uk/guides/app.html">
+    <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
+    <link rel="stylesheet" href="../styles.css?v=20261013-1">
+    <link rel="stylesheet" href="../camera-motion-studio-guides.css?v=20261102-1">
+  </head>
+  <body>
+    <!--
+      DRAFT (DEV_PLAN_USER_GUIDE.md in the app repository). Not linked from guides/index.html or the overview page yet.
+      Comments that start with SHOT Sx mark where a new phone screenshot goes; the plan lists what each one shows and how to crop it.
+      Every setting name, default and limit below was taken from the app's own text and code on 2026-11-07: recheck before publishing.
+    -->
+    <header class="site-header" data-header>
+      <a class="brand" href="../index.html" aria-label="Tech Story home"><span class="brand-mark" aria-hidden="true"><img src="../assets/techstory-mark.svg?v=3" alt=""></span><span>Tech Story</span></a>
+      <nav class="nav" aria-label="Primary navigation"><a href="../products.html" aria-current="page">Products</a><a href="../index.html#services">Services</a><a href="../index.html#workflows">Workflows</a><a href="../index.html#clients">Clients</a><a href="../index.html#contact">Contact</a></nav>
+      <a class="header-action" href="https://play.google.com/apps/testing/com.techstory.livetracker" target="_blank" rel="noopener noreferrer">Join open beta</a>
+    </header>
+
+    <main class="guide-page">
+      <section class="guide-hero">
+        <nav class="guide-breadcrumbs" aria-label="Breadcrumb"><a href="../camera-motion-studio.html">Camera Motion Studio</a><span>/</span><a href="index.html">Guides</a><span>/</span><span>Using the app</span></nav>
+        <p class="eyebrow">App guide</p>
+        <h1>Using Camera Motion Studio</h1>
+        <p class="guide-dek">What each mode does, what the options change, and when to reach for them. Start with the screen at a glance, then jump to the part you need. The receiver guides cover connecting to Unreal Engine, MotionBuilder, Blender, Roblox Studio and OBS Studio.</p>
+        <div class="guide-meta"><span>Tracking and Scout / Fly</span><span>Lens and viewfinders</span><span>Markers, recording and export</span></div>
+      </section>
+
+      <div class="guide-layout">
+        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#screen">The screen</a><a href="#wizard">Setup wizard</a><a href="#learn">Learn</a><a href="#tracking">Tracking</a><a href="#imu">IMU corrections</a><a href="#hold">Zero and Hold</a><a href="#space-scale">Space scale</a><a href="#scout">Scout / Fly</a><a href="#rigs">Camera rigs</a><a href="#controller">Game controller</a><a href="#lens">Zoom, focus, iris</a><a href="#calibration">Lens ranges</a><a href="#effects">Effects</a><a href="#views">Viewfinders</a><a href="#markers">Markers</a><a href="#roles">Focus, Aim, Ref</a><a href="#streaming">Streaming</a><a href="#osc-buttons">OSC buttons</a><a href="#recording">Recording</a><a href="#export">Export</a><a href="#mapping">Axis mapping</a><a href="#advanced">Advanced</a><a href="#plans">Lite and Pro</a><a href="#language">Language</a></aside>
+        <article class="guide-article">
+
+          <section id="screen">
+            <h2>The screen at a glance</h2>
+            <p>The main screen is built around the viewfinder, with the controls you need while moving the camera under it.</p>
+            <ul>
+              <li><strong>1 &middot; Header:</strong> the plan badge (<strong>LITE</strong> or <strong>PRO</strong>), a chip naming the camera rig when one is on, the wand that opens Setup and Learn, and the Settings gear.</li>
+              <li><strong>2 &middot; Status strip:</strong> <strong>Ready</strong> before you start, then the protocol, target address and rate while streaming, for example <code>Streaming &middot; OSC &middot; 192.168.0.94:4000 &middot; ~30 Hz</code>, and <code>Streaming + recording &middot; take</code> while a take is running. On Lite it also shows the time left in the session.</li>
+              <li><strong>3 &middot; Viewfinder:</strong> the view menu at its top right chooses what it shows (<a href="#views">Off, 3D view, AR camera, or a return picture</a>). Along its bottom edge: <strong>Scout / Fly</strong>, <strong>Fly home</strong> and <strong>Zero pose</strong>.</li>
+              <li><strong>4 &middot; Tabs:</strong> <strong>Pose</strong> (readout, Hold, Space scale), <strong>Lens</strong>, <strong>Effects</strong>, <strong>Rig</strong>, <strong>OSC</strong> and <strong>Scene</strong>.</li>
+              <li><strong>5 &middot; Bottom row:</strong> <strong>Start stream</strong> (it turns green and reads <strong>Stop stream</strong> while sending) and the round <strong>Record</strong> button, which becomes a stop square while a take is running.</li>
+            </ul>
+            <p>On a tablet in landscape, the tools stack in one scroll area beside the viewfinder.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_hud_streaming.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_hud_streaming.png" alt="The main screen while streaming, with numbered markers on the header, status strip, viewfinder, tabs and bottom row" loading="lazy"></a><figcaption>The main screen while streaming. The numbers match the list above.</figcaption></figure>
+          </section>
+
+          <section id="wizard">
+            <h2>Setup wizard</h2>
+            <p>The wand in the header opens the <strong>Setup</strong> page, with <strong>Run setup wizard</strong>, <strong>Open Learning</strong>, a link to the product web page and <strong>Exit</strong>. The wizard sets up the first connection in a few steps and shows a summary before it changes anything, so you can run it again whenever you change setup.</p>
+            <ol>
+              <li><strong>Where are you streaming to?</strong> Unreal Engine, Roblox Studio, MotionBuilder, Blender, another FreeD / OSC receiver, or <em>Not sure yet</em> (skips networking). For a receiver with an address it asks for the IP and port.</li>
+              <li><strong>ARCore or IMU.</strong> ARCore tracks position as well as rotation; without it the phone's motion sensors give orientation only. With ARCore it also asks how to anchor the origin (<a href="#tracking">see Tracking</a>).</li>
+              <li><strong>Camera rig and Scout.</strong> Raw, or a <a href="#rigs">camera rig</a> (Pro), and whether the phone should <a href="#scout">fly the camera</a> with Shove or the on-screen joystick.</li>
+              <li><strong>Lens.</strong> Whether to send field of view, and depth of field too.</li>
+            </ol>
+            <p>The wizard sets the receiver's protocol and a Space scale of 1 (life size), and turns on the return-viewfinder previews that fit. On the first page, a language menu lets you switch the app's language before you read anything else.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/camera-motion-studio/setup-wizard.png" target="_blank" rel="noopener noreferrer" aria-label="Open the setup wizard screenshot at full size"><img src="../assets/camera-motion-studio/setup-wizard.png" alt="The setup wizard's first step, Where are you streaming to, with Unreal Engine selected" loading="lazy"></a><figcaption>The first wizard step: choose where you are streaming to.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_welcome.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_welcome.png" alt="The Setup page with Run setup wizard, Open Learning, Product web page and Exit, and the language menu at the top" loading="lazy"></a><figcaption>The Setup page behind the wand, with the language menu at the top right.</figcaption></figure>
+            <!-- SHOT S3: wizard lens step (field of view / depth of field), cropped to the question area -->
+          </section>
+
+          <section id="learn">
+            <h2>Learn, inside the app</h2>
+            <p><strong>Learn</strong> (<em>Open Learning</em> on the Setup page, or from Settings) holds short, step-by-step guides to what the app does. Topics teach one part of the app (<em>Track the camera</em>, <em>Move like a camera</em>, <em>Camera rigs</em>, <em>Lens</em>, <em>Effects</em>, <em>Markers and the scene</em> and more); recipes under <strong>Tools for your shoot</strong> start from a result, such as <em>Do the move again, exactly</em>, <em>Lock the horizon</em> or <em>Smooth push-in</em>, and give you the presses for it.</p>
+            <ul>
+              <li><strong>Tailored to your setup.</strong> Steps change with your pose source, anchor mode and protocol, and each lesson says what it still needs.</li>
+              <li><strong>PRO badge.</strong> On Lite, a lesson about a Pro feature carries a PRO badge. You can still read it.</li>
+              <li><strong>Show me on the HUD.</strong> Walks the same steps on the real screen and points at each control.</li>
+              <li><strong>Language.</strong> The Learn pages have the same language menu as the wizard in their header.</li>
+            </ul>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_learn_hub.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_learn_hub.png" alt="The Learning page listing topics with done checks, and the language menu in its header" loading="lazy"></a><figcaption>Learn: topics, with a check on the ones you have finished and the language menu at the top right.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_learn_lesson.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_learn_lesson.png" alt="A lesson page with a step, a Where line, a Show me on the HUD button and Back and Next buttons" loading="lazy"></a><figcaption>A lesson, one step at a time, with a <strong>Where</strong> line and <strong>Show me on the HUD</strong>.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_show_me.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_show_me.png" alt="The Show me overlay on the main screen, with a card that says Open Settings and a ring around the Settings gear" loading="lazy"></a><figcaption>Show me: the card walks the steps on the real screen and rings the control it means.</figcaption></figure>
+          </section>
+
+          <section id="tracking">
+            <h2>Tracking: ARCore or the IMU</h2>
+            <p>The app has two pose sources. Choose with <strong>Settings &gt; Tracking &amp; fusion &gt; Use ARCore</strong>.</p>
+            <ul>
+              <li><strong>ARCore</strong> uses the camera for full position and rotation. It also powers the AR viewfinder. If ARCore is unavailable on a phone, the app falls back to the IMU.</li>
+              <li><strong>IMU</strong> uses the motion sensors: rotation only. Position is entered by hand under <strong>Manual position</strong> (metres, useful for a locked-off camera whose rotation you still track) or flown with <a href="#scout">Scout</a>.</li>
+            </ul>
+            <p>With ARCore, three <strong>anchor modes</strong> pick what the origin is pinned to. All three use the same estimator:</p>
+            <ul>
+              <li><strong>Unanchored:</strong> the origin is wherever the session started, and Zero re-references it. Lowest CPU and no setup, but it can drift over a long take.</li>
+              <li><strong>Trackable:</strong> pins the origin to a detected floor or table, so drift is corrected.</li>
+              <li><strong>Marker:</strong> pins the origin to a printed image in the scene. Print it at exactly the width set in the settings, tape it flat where the origin should be, and point the camera at it. <strong>Re-home</strong> re-snaps the origin to the marker whenever it is in view.</li>
+            </ul>
+            <p>In the anchor modes the position and the rotation have separate references, so the main screen shows two controls: <strong>Set anchor</strong> / <strong>Re-home</strong> moves the position origin and <strong>Zero pose</strong> sets the heading. <strong>Level Zero</strong> (on by default) makes Zero reset the heading only, so tilt and roll stay level with gravity and zeroing on a tilted phone does not skew everything after it.</p>
+            <div class="guide-note"><strong>When tracking is lost</strong><p>If ARCore is starting, reacquiring or has lost tracking, the pose chip turns amber and the 3D camera is drawn amber with <em>Tracking lost</em>. The app holds the last good pose while it waits to reacquire. <strong>Restart tracking</strong> appears on the viewfinder if it needs a restart.</p></div>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_tracking_top.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_tracking_top.png" alt="Tracking and fusion settings with Use ARCore on, the Anchor choice and Level Zero" loading="lazy"></a><figcaption><strong>Settings &gt; Tracking &amp; fusion</strong>: pose source, anchor mode and Level Zero.</figcaption></figure>
+            <!-- SHOT S7: the tracking-lost chip on the viewfinder (needs the camera covered) -->
+          </section>
+
+          <section id="imu">
+            <h2>IMU corrections and sensor rates</h2>
+            <p>These apply only while the IMU is the pose source; with ARCore the estimator handles drift itself.</p>
+            <ul>
+              <li><strong>Gravity correction</strong> slowly blends pitch and roll toward the measured gravity vector, which stops them drifting.</li>
+              <li><strong>Compass correction</strong> blends the heading toward magnetic north. It is unreliable near metal, motors or LED walls, and pauses itself while the compass reports low accuracy.</li>
+            </ul>
+            <p><strong>Sensor rates</strong> need no tuning. With Pro, ARCore runs at 60 fps on phones that offer it, at some cost in heat and battery. With the IMU alone, the rotation sensor keeps up with the stream rate.</p>
+          </section>
+
+          <section id="hold">
+            <h2>Zero, Hold and Hold release</h2>
+            <p><strong>Zero pose</strong> re-references the tracking where the phone stands and points: the walked position, any drift and the heading. It keeps what <a href="#scout">Scout</a> added, so with nothing flown the camera is back at the origin, and after a flight it stays at the place you flew it. <strong>Fly home</strong> clears the flight and the look instead.</p>
+            <p><strong>Hold position</strong> and <strong>Hold rotation</strong> (Pose tab) freeze that half of the streamed camera for as long as you hold the button. The phone's own readout keeps moving, and nothing is toggled: let go and the camera comes back.</p>
+            <p>When you let go, the camera does not jump. It <strong>blends</strong> from where it was held to where the phone now points. Set the time and the curve under <strong>Settings &gt; Tracking &amp; fusion &gt; Hold release</strong>:</p>
+            <ul>
+              <li><strong>Blend time (s):</strong> 0.5 s by default; <strong>0</strong> cuts straight back.</li>
+              <li><strong>Blend style:</strong> <strong>Linear</strong>, <strong>Smooth</strong> (eases in and out, the default) or <strong>Snappy</strong> (closes most of the gap early and lands softly).</li>
+            </ul>
+            <div class="guide-note"><strong>No added lag</strong><p>Only the gap between the held camera and the live one fades; the live motion comes through at full speed from the first moment. Zero, Fly home and Set anchor cut a running blend, because they move the reference on purpose. A take recorded during a Hold follows the same blend, and the 3D view draws the camera blending too.</p></div>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_pose_tab.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_pose_tab.png" alt="The Pose tab with the Hold position and Hold rotation buttons, the position and rotation readout and the Space scale slider" loading="lazy"></a><figcaption>The Pose tab: Hold position and Hold rotation, the readout, and Space scale.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_hold_release.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_hold_release.png" alt="The Hold release settings with a blend time of 0.5 seconds and the Smooth style chosen" loading="lazy"></a><figcaption><strong>Settings &gt; Tracking &amp; fusion &gt; Hold release</strong>: blend time and style.</figcaption></figure>
+            <!-- SHOT S11: 3D view just after a release, camera blending with the live phone as a ghost (needs a moving phone) -->
+          </section>
+
+          <section id="space-scale">
+            <h2>Space scale</h2>
+            <p>The phone works in metres. <strong>Space scale</strong> is how many times as far the camera travels as you do, in everything the app shows, sends and records: the readout, the 3D view, the markers' distances, takes and every stream. At <strong>1</strong> the shot is life size; at <strong>4</strong> a step of a metre is four.</p>
+            <ul>
+              <li><strong>Where:</strong> the slider and the &minus; / + buttons on the Pose tab, or the field and presets (0.1, 1, 10, 100) under <strong>Settings &gt; Axis mapping</strong>. Type any other value in the field.</li>
+              <li><strong>It is a gain, not a unit.</strong> Each receiver converts metres to its own unit. MotionBuilder, Blender, Unreal and Roblox do this for you, FBX files are written in centimetres, and a custom OSC receiver gets metres (the stream says so).</li>
+              <li><strong>Saved with a preset:</strong> each axis-mapping preset carries its own scale, and loading it applies that scale too.</li>
+            </ul>
+            <div class="guide-note"><strong>FreeD range</strong><p>FreeD carries about &plusmn;131 m, so a large scale reaches its limit sooner. At a scale of 100 that is about 1.3 m of phone travel.</p></div>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_space_scale.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_space_scale.png" alt="The Space scale field set to 1 with the 0.1, 1, 10 and 100 presets" loading="lazy"></a><figcaption><strong>Settings &gt; Axis mapping</strong>: the Space scale field and its presets.</figcaption></figure>
+          </section>
+
+          <section id="scout">
+            <h2>Scout / Fly</h2>
+            <p>Scout flies the streamed position when you are not walking the phone around the set. It works under either pose source: flying offsets the streamed position from wherever tracking currently has it.</p>
+            <p>Choose the control in <strong>Settings &gt; Scout / Fly</strong>:</p>
+            <ul>
+              <li><strong>Shove:</strong> hold the <strong>Scout / Fly</strong> button and shove the phone the way you want to travel. A harder shove flies faster, up to <strong>Max speed</strong>, and it cruises until you jab the phone back or release. Slide on the button to trim the speed. <em>Lock to horizontal</em> keeps shoves on the ground plane; turn it off to crane up and down too. <em>Turn steers direction</em> re-aims a shove when you turn the phone mid-move.</li>
+              <li><strong>Joystick:</strong> tap <strong>Scout / Fly</strong> and the view goes fullscreen with the fly deck. The left stick dollies and trucks along the view, the right-hand pedestal slider cranes up and down, and a speed slider trims how fast it flies. <em>Response</em> shapes how the stick maps to speed. The optional <strong>look stick</strong> pans and tilts the camera on top of the phone's own rotation and stays where you leave it.</li>
+            </ul>
+            <p>The fly deck is otherwise the normal screen: Lens, Effects and the other panels are under <strong>Tools</strong>, so you can pull focus while you fly. Tap the lit <strong>Scout / Fly</strong> button again to hide the sticks, or the corner button to leave fullscreen.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/camera-motion-studio/fly-deck.png" target="_blank" rel="noopener noreferrer" aria-label="Open the fly deck screenshot at full size"><img src="../assets/camera-motion-studio/fly-deck.png" alt="The fullscreen fly deck with a move stick, a look stick and a pedestal slider over the 3D view" loading="lazy"></a><figcaption>The fly deck: move stick, look stick and pedestal slider over the 3D view.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_scout_settings.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_scout_settings.png" alt="Scout / Fly settings with Scout mode, the Joystick control, speed and response, and the look stick" loading="lazy"></a><figcaption><strong>Settings &gt; Scout / Fly</strong>: control, speed, response and the look stick.</figcaption></figure>
+          </section>
+
+          <section id="rigs">
+            <h2>Camera rigs (Pro)</h2>
+            <p>A <strong>rig</strong> sits between the phone and the stream and gives the camera weight, like real camera support. Pick one from the <strong>Rig</strong> tab and tune it under <strong>Settings &gt; Camera rig</strong>, where you also pick the rig from a list with a one-line description of each. On Lite the camera stays raw. While a rig is on, a chip with its name sits beside the plan badge.</p>
+            <ul>
+              <li><strong>Off:</strong> the raw pose, no added lag.</li>
+              <li><strong>Smooth:</strong> an adaptive low-pass filter: still at rest, quick on fast moves, with a little lag.</li>
+              <li><strong>Gimbal:</strong> a smooth camera with a level horizon.</li>
+              <li><strong>Steadicam:</strong> floaty walk-and-follow, so footsteps disappear.</li>
+              <li><strong>Operator:</strong> handheld, but good: tremor out, a little weight.</li>
+              <li><strong>Fly:</strong> Scout flies the camera like a drone, with soft starts and stops. Choosing Fly turns Scout on and arms it; choosing another rig leaves it.</li>
+            </ul>
+            <p>The <strong>weight</strong> slider sets how far the camera trails the phone, and <strong>character</strong> how it arrives: a dead stop, or settling with a little overshoot. For Fly, weight is how heavy the drone feels, and style runs from Cinematic (soft starts and stops, level horizon) to Sport (quick, leaning into its turns).</p>
+            <div class="guide-note"><strong>A rig shapes the stream, not the recording</strong><p>A take always keeps the true phone motion. When a rig is on, it also stores the motion that was streamed, so you can <a href="#export">export either one</a>.</p></div>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_rig_tab.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_rig_tab.png" alt="The Rig tab with Off, Smooth, Gimbal, Steadicam, Operator and Fly, and a weight slider for the chosen rig" loading="lazy"></a><figcaption>The Rig tab, with Steadicam chosen and its weight slider.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_rig_settings.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_rig_settings.png" alt="Camera rig settings with the rig list and the Weight and Character sliders" loading="lazy"></a><figcaption><strong>Settings &gt; Camera rig</strong>: the rig list, and the Feel sliders for the chosen rig.</figcaption></figure>
+          </section>
+
+          <section id="controller">
+            <h2>Game controller</h2>
+            <p>Pair a Bluetooth controller (Xbox, PlayStation, 8BitDo and others) or plug one in over USB-C, and the main screen takes it. A small <strong>PAD</strong> tag appears beside the plan badge. It works on the main screen only; Settings and other screens keep the system's own behaviour. The controller is free; the OSC layer is Pro, like the OSC buttons.</p>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Control</th><th>Action</th></tr></thead><tbody>
+              <tr><td>Left stick</td><td>Dolly / truck. Pushing it from centre arms Scout by itself</td></tr>
+              <tr><td>Right stick</td><td>Look (pan and tilt), on top of the phone's own rotation</td></tr>
+              <tr><td>RT / LT</td><td>Pedestal up / down</td></tr>
+              <tr><td>RB / LB</td><td>Hold rotation / Hold position, while held</td></tr>
+              <tr><td>D-pad up / down</td><td>Next / previous zoom preset</td></tr>
+              <tr><td>D-pad left / right</td><td>Focus far / near (a tap is one step, hold to sweep)</td></tr>
+              <tr><td>A / B</td><td>Effects: Impact / Punch zoom</td></tr>
+              <tr><td>X / Y</td><td>Effects: Shake / Breathing (press to switch on, again to switch off)</td></tr>
+              <tr><td>L3, R3 (hold half a second)</td><td>Fly home / Zero</td></tr>
+              <tr><td>Start (hold half a second)</td><td>Stream start / stop</td></tr>
+              <tr><td>View held + A, B, X, Y or the D-pad</td><td>OSC buttons 1 to 8 (Pro)</td></tr>
+              <tr><td>View held + Start</td><td>Record start / stop</td></tr>
+            </tbody></table></div>
+            <p><strong>Settings &gt; Game controller</strong> lets you turn the controller off, swap the sticks for left-handed use, set the dead zone, look speed and lens sweep speed, turn rumble on, bind every stick, trigger and button, and save whole layouts as presets. <em>Right stick</em> can be set to <strong>Pedestal</strong> instead of Look. If the controller drops out, everything is released and the sticks read neutral.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_controller_settings.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_controller_settings.png" alt="Game controller settings with Use game controller, Rumble and Swap sticks" loading="lazy"></a><figcaption><strong>Settings &gt; Game controller</strong>.</figcaption></figure>
+          </section>
+
+          <section id="lens">
+            <h2>Zoom, focus and iris</h2>
+            <p>The <strong>Lens</strong> tab controls the camera's lens from the same screen as the camera. By default <strong>zoom</strong> and <strong>iris</strong> show a row of preset chips (zoom 24, 35, 50, 85 and 135 mm; iris f/1.4 to f/22) and <strong>focus</strong> keeps a slider, with a <strong>Mark</strong> button beside it.</p>
+            <ul>
+              <li><strong>Presets and sliders.</strong> Under <strong>Settings &gt; Lens &amp; encoders</strong>, each of zoom and iris can show <strong>Slider</strong>, <strong>Presets</strong> or <strong>Both</strong>. Edit the preset list as plain numbers separated by commas. Focus has no presets.</li>
+              <li><strong>Blending.</strong> Tapping a preset blends to its value over a time set per channel (zoom 1.5 s and iris 0.5 s by default) with a curve of your choice. Zoom and iris move evenly by ratio, so an iris pull is even in stops, not in equal steps of f-number. Moving a slider during a blend takes over.</li>
+              <li><strong>Log slider.</strong> Spreads equal zoom ratios or equal iris stops evenly along the slider's travel.</li>
+            </ul>
+            <p><strong>Mark</strong>, beside the focus slider, holds focus on the Focus marker from the <a href="#markers">Scene tab</a>, or on a point straight ahead, and keeps it sharp as the camera moves. Tap again to let go. It needs focus calibrated in metres.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/camera-motion-studio/lens-controls.png" target="_blank" rel="noopener noreferrer" aria-label="Open the lens screenshot at full size"><img src="../assets/camera-motion-studio/lens-controls.png" alt="The Lens tab with zoom and iris preset chips, a focus slider, and depth-of-field planes in the 3D view" loading="lazy"></a><figcaption>The Lens tab: zoom and iris presets, a focus slider, and depth of field in the 3D view.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_lens_presets.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_lens_presets.png" alt="The zoom presets settings with the HUD control, the preset list, Presets define the range, Log slider and Blend time" loading="lazy"></a><figcaption><strong>Settings &gt; Lens &amp; encoders</strong>: how zoom presets are shown, what they are, and the blend time.</figcaption></figure>
+          </section>
+
+          <section id="calibration">
+            <h2>Lens ranges and what is sent</h2>
+            <p>A <strong>calibrated</strong> channel streams the physical value (the units of Unreal's CineCamera: millimetres, metres, f-number); an uncalibrated channel streams a 0 to 100 % level mapped through its encoder range. Calibrate under <strong>Settings &gt; Lens &amp; encoders</strong>.</p>
+            <p>The default presets already define a range, so zoom and iris send real values out of the box. If you calibrate a channel yourself, your own minimum and maximum are used, with the chips placed inside it. <strong>Presets define the range</strong> makes the lowest and highest preset the calibrated range.</p>
+            <div class="guide-note"><strong>Unreal's focus range</strong><p>Unreal's Live Link FreeD source cannot be told the calibrated focus range: it reads focus against its own fixed near and far range. <strong>Remap to default UE Focus Range</strong> rescales the streamed focus so Unreal lands on the distance you calibrated. It only matters for FreeD; OSC and WebSocket carry the distance itself. See the <a href="unreal-engine.html#lens">Unreal Engine guide</a> for the full setup.</p></div>
+          </section>
+
+          <section id="effects">
+            <h2>Effects</h2>
+            <p>The <strong>Effects</strong> tab adds procedural animation to the camera you stream: <strong>Shake</strong> and <strong>Breathing</strong> switch on and off; <strong>Impact</strong> and <strong>Punch zoom</strong> play once.</p>
+            <ul>
+              <li>Effects are <strong>live output</strong>: the phone's own readout and AR preview stay clean (the 3D view does show them).</li>
+              <li>Position amounts are in millimetres in the scene whatever the Space scale. <strong>Punch zoom</strong> scales the zoom sent on the wire, as a focal-length scale when zoom is calibrated.</li>
+              <li><strong>Settings &gt; Effects</strong> sets the amount, speed and duration of each. Changes apply the next time an effect starts.</li>
+              <li>While recording, every effect press is logged with its time. <strong>Include effects when exporting</strong> (on by default) replays that timeline into the exported file.</li>
+            </ul>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_effects_tab.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_effects_tab.png" alt="The Effects tab with Shake, Impact, Punch and Breath buttons" loading="lazy"></a><figcaption>The Effects tab.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_effects_settings.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_effects_settings.png" alt="Effects settings with rotation and position amounts, speed, strength and duration" loading="lazy"></a><figcaption><strong>Settings &gt; Effects</strong>: amount, speed and duration for each effect.</figcaption></figure>
+          </section>
+
+          <section id="views">
+            <h2>Viewfinders</h2>
+            <p>The view menu at the top right of the viewfinder chooses what you see. <strong>Off</strong>, <strong>3D view</strong> and <strong>AR camera</strong> are always there; <strong>UE</strong> (once its signalling URL is set), <strong>OBS</strong> and <strong>NDI</strong> are return pictures from your computer, and you can hide any you do not use under <strong>Settings &gt; View / Preview Input</strong>.</p>
+            <ul>
+              <li><strong>3D view:</strong> the tracked camera standing in a navigable 3D space with a grid, its recent path, a true-to-life frustum, and the depth-of-field planes when the lens is calibrated. It needs no network and costs nothing while another mode is selected.</li>
+              <li><strong>AR camera:</strong> the camera image from ARCore with the pose overlaid.</li>
+              <li><strong>UE (Pixel Streaming):</strong> a live Unreal Engine picture over WebRTC. Set the signalling URL to enable it, and pin the codec to VP9 if the stream crashes on H264 (some devices' hardware H264 decoder is unstable under WebRTC).</li>
+              <li><strong>OBS (WHIP):</strong> select it, then in OBS set the WHIP output's server URL to the address the phone shows; leave the bearer token blank.</li>
+              <li><strong>OBS (NDI):</strong> select it to discover NDI sources on your network, then pick one. In OBS, turn on Main Output under NDI Output settings and give it a name. NDI is decoded on the CPU, so it costs more battery and can compete with tracking on a less powerful phone.</li>
+            </ul>
+            <p>Follow the <a href="obs-studio.html">OBS Studio guide</a> for the OBS side and the <a href="unreal-engine.html#viewfinder">Unreal Engine guide</a> for Pixel Streaming.</p>
+            <h3>Navigating the 3D view</h3>
+            <p>One finger orbits, a pinch zooms, two fingers pan and a double-tap re-frames. The view menu offers the <strong>Persp</strong>, <strong>Top</strong>, <strong>Front</strong> and <strong>Side</strong> viewpoints, <strong>Camera view</strong> (look out through the lens), <strong>Follow camera</strong>, <strong>Frame camera</strong>, a <strong>Focus planes</strong> switch (off by default) and a <strong>Trajectory</strong> switch (on by default). <strong>Settings &gt; 3D view</strong> sets the sensor size, frustum length and frame rate. The 3D view shows the phone, not the stream: it is drawn before the axis mapping, and nothing in its settings changes what you stream or record.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/camera-motion-studio/track-3d.png" target="_blank" rel="noopener noreferrer" aria-label="Open the 3D view screenshot at full size"><img src="../assets/camera-motion-studio/track-3d.png" alt="The 3D view showing a camera, its path and its lens frustum, above the Pose tab" loading="lazy"></a><figcaption>The 3D view: the camera, its path and its lens frustum.</figcaption></figure>
+            <figure class="guide-figure"><a href="../assets/guides/mobu_phone_ndi_viewfinder.png" target="_blank" rel="noopener noreferrer" aria-label="Open the NDI viewfinder screenshot at full size"><img src="../assets/guides/mobu_phone_ndi_viewfinder.png" alt="The app in landscape showing a live NDI picture of a character while streaming OSC" loading="lazy"></a><figcaption>A return picture over NDI, in landscape, while the pose streams.</figcaption></figure>
+            <p>NDI&reg; is a registered trademark of Vizrt NDI AB.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_view_menu.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_view_menu.png" alt="The viewfinder menu open, listing Off, 3D view, AR camera, OBS and NDI" loading="lazy"></a><figcaption>The view menu. UE appears here once its signalling URL is set.</figcaption></figure>
+            <!-- SHOT S24: AR camera view (shows the room: shoot against a neutral scene) -->
+          </section>
+
+          <section id="markers">
+            <h2>Markers and the live scene</h2>
+            <p>The <strong>Scene</strong> tab holds markers: points and boxes in space that the camera can aim at and focus on. They are drawn in the 3D view with their distance and roles. Add your own, or let a plugin on your computer send the scene's own models as a <strong>Live scene</strong>, which is read-only and moves with the sender's timeline.</p>
+            <p>Markers give you feedback from the real scene without streaming a rendered image back to the phone. Only each marker's position, size, colour and role are sent, far less data than a video frame, so the phone shows them with much less lag than a streamed picture.</p>
+            <ul>
+              <li><strong>Marker link:</strong> turn on <strong>Settings &gt; Stream &gt; Scene link &gt; Accept a marker link</strong> so the Blender add-on or the Unreal or MotionBuilder plugin can send markers to the phone. It is off by default and opens a UDP port; each new sender is asked about first, and the phone ignores computers you have not allowed. Roblox Studio sends its markers over the stream's own WebSocket instead.</li>
+              <li><strong>Back to my scene</strong> leaves a live scene and returns to your own markers.</li>
+            </ul>
+            <p>The receiver guides show how to send markers from <a href="unreal-engine.html#markers">Unreal Engine</a>, <a href="motionbuilder.html#markers">MotionBuilder</a> and <a href="blender.html">Blender</a>.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/mobu_phone_markers_3d.png" target="_blank" rel="noopener noreferrer" aria-label="Open the markers screenshot at full size"><img src="../assets/guides/mobu_phone_markers_3d.png" alt="Two markers in the 3D view, a box and a sphere, labelled with their distance and roles" loading="lazy"></a><figcaption>Two markers in the 3D view, each labelled with its distance and roles.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_scene_roles.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_scene_roles.png" alt="The Scene tab with two markers, Focus, Aim and Ref role circles, and the look-at strength" loading="lazy"></a><figcaption>The Scene tab with two markers of your own: Marker 1 is Ref, Marker 2 is Focus and Aim.</figcaption></figure>
+          </section>
+
+          <section id="roles">
+            <h2>Focus, Aim and Ref</h2>
+            <p>Each marker can take one or more of three roles. A role belongs to one marker at a time, and one marker can hold all three.</p>
+            <ul>
+              <li><strong>Focus:</strong> focus follows the distance to the marker.</li>
+              <li><strong>Aim:</strong> the <strong>look-at</strong> turns the streamed camera toward the marker. Choose its strength: <strong>Off</strong>, <strong>25 %</strong>, <strong>50 %</strong>, <strong>75 %</strong> or <strong>Lock</strong>. The strength shows as <em>assist 50 %</em> on the view. The phone's own motion is kept in a take.</li>
+              <li><strong>Ref:</strong> the camera's parent. The camera moves from the Ref marker, following its position or its position and heading, so you can ride with a moving subject or vehicle. Press <strong>Zero</strong> where the camera stands on it.</li>
+            </ul>
+            <p>A <em>REF</em> chip on the viewfinder names the marker the camera is riding. Takes keep the phone's true motion and also store the streamed camera, so you can <a href="#export">export either</a>.</p>
+            <figure class="guide-figure"><a href="../assets/guides/mobu_phone_roles_synced.png" target="_blank" rel="noopener noreferrer" aria-label="Open the roles screenshot at full size"><img src="../assets/guides/mobu_phone_roles_synced.png" alt="The Live scene list with Ref ringed on ChestEndEffector and Focus and Aim ringed on HeadEffector" loading="lazy"></a><figcaption>Roles in the Scene tab: Ref on one marker, Focus and Aim on another.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_roles_chips.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_roles_chips.png" alt="The 3D view with the REF Marker 1 chip and the Marker 2 aim chip reading assist 50 percent" loading="lazy"></a><figcaption>The same roles on the viewfinder: the <em>REF</em> chip, and the aim chip with its <em>assist 50 %</em>.</figcaption></figure>
+          </section>
+
+          <section id="streaming">
+            <h2>Streaming</h2>
+            <p>Choose the protocol and target under <strong>Settings &gt; Stream</strong>.</p>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Protocol</th><th>Used for</th><th>Notes</th></tr></thead><tbody>
+              <tr><td><strong>FreeD</strong></td><td>Unreal Engine (Live Link FreeD)</td><td>Fixed-point position, about &plusmn;131 m</td></tr>
+              <tr><td><strong>OSC</strong></td><td>MotionBuilder, Blender and custom receivers</td><td>Positions in metres; also carries the OSC buttons, the diagnostics stream and the raw IMU stream</td></tr>
+              <tr><td><strong>WebSocket</strong></td><td>Roblox Studio</td><td>The phone is the server: press Start, then connect to the address the phone shows</td></tr>
+            </tbody></table></div>
+            <ul>
+              <li><strong>Send mode:</strong> use <strong>Unicast</strong> with the receiver's IP for a smooth, per-packet feed. Broadcast and multicast work, but Wi-Fi access points hold those packets and release them in bursts about every 100 ms, so a 30 Hz stream lands as a few packets at a time.</li>
+              <li><strong>Also send to</strong> (Pro): fan the same pose packets out to extra machines, one <code>ip:port</code> per line.</li>
+              <li><strong>Rate:</strong> Lite streams at 30 Hz; Pro up to 60 Hz.</li>
+            </ul>
+            <p>Lite streams to one machine, for sessions of up to five minutes. See <a href="#plans">Lite and Pro</a>.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_stream_settings.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_stream_settings.png" alt="Stream settings with Target IP, Port, Camera ID, Stream rate, Protocol, Send mode and Also send to" loading="lazy"></a><figcaption><strong>Settings &gt; Stream</strong>: target, rate, protocol, send mode and extra machines.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_status_streaming.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_status_streaming.png" alt="The status strip reading Streaming plus recording, take, OSC, an address and about 30 Hz" loading="lazy"></a><figcaption>The status strip while streaming and recording.</figcaption></figure>
+          </section>
+
+          <section id="osc-buttons">
+            <h2>OSC buttons (Pro)</h2>
+            <p>The <strong>OSC</strong> tab has remote-control buttons for the receiver: play, stop, record, go to start or end, and step a frame. They always travel as OSC, whatever the stream's protocol is, so the pose can go to Unreal as FreeD while the buttons go to another port on the same machine, or to MotionBuilder or Blender.</p>
+            <ul>
+              <li><strong>Settings &gt; OSC buttons</strong> sets each button's label, command and order.</li>
+              <li><strong>Settings &gt; Stream &gt; OSC commands</strong> sets the port the buttons are sent to. Left blank, they go to the stream's port, which only works with OSC as the protocol.</li>
+              <li>Buttons work independently of the pose stream, and while it is stopped.</li>
+            </ul>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/mobu_phone_osc_buttons.png" target="_blank" rel="noopener noreferrer" aria-label="Open the OSC buttons screenshot at full size"><img src="../assets/guides/mobu_phone_osc_buttons.png" alt="The OSC tab with Start, Step back, Play, Stop, Record and End buttons" loading="lazy"></a><figcaption>The OSC tab: Start, Step back, Play, Stop, Record and End.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_osc_settings.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_osc_settings.png" alt="OSC buttons settings listing Start, Step back, Play, Stop, Record and End with their commands" loading="lazy"></a><figcaption><strong>Settings &gt; OSC buttons</strong>: each button, its command, and its order.</figcaption></figure>
+          </section>
+
+          <section id="recording">
+            <h2>Recording and takes</h2>
+            <p>The round <strong>Record</strong> button starts and stops a take. Recording is unlimited in length and count on both Lite and Pro, and works with or without streaming.</p>
+            <ul>
+              <li>A take keeps the <strong>true phone motion</strong>, whatever rig, look-at or Hold was on. When a camera rig is on, or an Aim or Ref marker exists, it also stores the motion that was streamed.</li>
+              <li>It also keeps the lens as calibrated and a log of every effect you pressed.</li>
+              <li>The <strong>Recordings</strong> screen lists your takes: rename, star, export, delete, or play back.</li>
+              <li><strong>Playback</strong> (Pro): <strong>Stream this take</strong> makes a take the pose source and streams it on a loop at its recorded spacing. A take that carries the streamed motion can be played as streamed or with the phone's own motion.</li>
+              <li><strong>Start / stop sounds</strong> (optional) beep when recording or streaming starts and stops, so you can line up another camera's audio with the take.</li>
+            </ul>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_recordings.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_recordings.png" alt="The Recordings list with four takes, a star on each, and Export all buttons" loading="lazy"></a><figcaption>The Recordings screen: star, details and a menu for each take, and Export all.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_playback.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_playback.png" alt="The status strip reading Playback with the take name, As streamed and Exit" loading="lazy"></a><figcaption>Playing a take back: the strip names it, and <strong>As streamed</strong> switches between the streamed and the phone's own motion.</figcaption></figure>
+          </section>
+
+          <section id="export">
+            <h2>Export</h2>
+            <p>Export a take from the Recordings screen. The formats:</p>
+            <ul>
+              <li><strong>CSV</strong> (free): pan, tilt, roll, position, lens. <em>Include raw IMU</em> (Pro) adds the untouched sensor columns.</li>
+              <li><strong>FBX</strong> (Pro): the camera motion in centimetres with scene metadata, so it imports into MotionBuilder without a stray scale. Calibrated focal length, focus distance and aperture animate onto the camera automatically.</li>
+              <li><strong>Roblox Json</strong> (Pro): a baked camera path for Roblox Studio. <em>Resample frame rate</em> drops frames to make the file smaller.</li>
+            </ul>
+            <p>Four settings under <strong>Settings &gt; Recording</strong> decide what an export contains:</p>
+            <ul>
+              <li><strong>Export as streamed</strong> (on by default): export the rig's or the look-at's motion instead of the raw phone motion. Takes recorded with neither export raw either way, and the CSV of such a take always carries the streamed motion as extra <code>rig_</code> columns.</li>
+              <li><strong>Include effects when exporting</strong> (on by default): replays the take's effect log into the file. Off, the export is exactly what was recorded.</li>
+              <li><strong>Smooth export</strong> (Pro): runs a low-pass filter once over the whole take, separately for translation and rotation, before any effects. A blank cutoff leaves that channel unsmoothed; lower smooths harder.</li>
+              <li><strong>FBX position scale</strong> (default 1): leave it at 1, because the FBX already matches the stream. Changing it multiplies the exported position and focus distance again.</li>
+            </ul>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_take_menu.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_take_menu.png" alt="A take menu with Stream this take, Rename, Export CSV, Export FBX, Export Roblox Json and Delete" loading="lazy"></a><figcaption>A take's menu.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_recording_settings.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_recording_settings.png" alt="Recording settings with Include raw IMU, Include effects when exporting and Start/stop sounds" loading="lazy"></a><figcaption><strong>Settings &gt; Recording</strong>.</figcaption></figure>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_export_settings.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_export_settings.png" alt="Export settings with Resample frame rate for Roblox Json and the Export as streamed switch" loading="lazy"></a><figcaption>Export as streamed, and the Roblox Json frame rate.</figcaption></figure>
+          </section>
+
+          <section id="mapping">
+            <h2>Axis mapping</h2>
+            <p><strong>Settings &gt; Axis mapping</strong> decides how the phone's motion is labelled on the wire. The <strong>Default</strong> preset matches Unreal's convention and the frame the other receivers expect, so leave it alone unless a receiver needs something else. You can pick which source drives each of yaw, pitch and roll and X, Y and Z, invert any of them, and save the whole set as a named preset. <strong>Reset to Default</strong> puts everything back.</p>
+            <p>Look-at, the Roblox transform and the 3D view's match with the receiver all assume the Default mapping. <a href="#space-scale">Space scale</a> lives on this screen too.</p>
+            <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/app_axis_sources.png" target="_blank" rel="noopener noreferrer" aria-label="Open this screenshot at full size"><img src="../assets/guides/app_axis_sources.png" alt="The rotation source axes for yaw, pitch and roll and the invert switches" loading="lazy"></a><figcaption>Source axes and invert switches. The Default preset sets these for Unreal; leave them unless a receiver needs otherwise.</figcaption></figure>
+          </section>
+
+          <section id="advanced">
+            <h2>Advanced streams and session options</h2>
+            <ul>
+              <li><strong>Diagnostics stream</strong> (OSC): every frame also sends a sequence number and the send time, so a receiver can count dropped packets and measure latency.</li>
+              <li><strong>Raw IMU stream</strong> (OSC, Pro): also sends the untouched sensor values with every frame, in the phone's own body frame, for a receiver that fuses them itself.</li>
+              <li><strong>Keep tracking in background:</strong> runs a foreground service with a notification so streaming survives leaving the app. ARCore needs the camera, so it still pauses when the app leaves the screen.</li>
+              <li><strong>Lock orientation while tracking</strong> (on by default): the screen does not rotate while streaming or recording.</li>
+              <li><strong>Keep the screen on:</strong> with the option off, the screen stays on while streaming, recording or calibrating.</li>
+            </ul>
+          </section>
+
+          <section id="plans">
+            <h2>Lite and Pro</h2>
+            <p>Lite is free. Pro is a monthly subscription or a one-time lifetime purchase through Google Play. Everything not listed as Pro below is in Lite.</p>
+            <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Feature</th><th>Lite</th><th>Pro</th></tr></thead><tbody>
+              <tr><td>Live streaming</td><td>One machine, up to 30 Hz, sessions of up to 5 minutes</td><td>No time limit, up to 60 Hz, <strong>Also send to</strong> extra machines</td></tr>
+              <tr><td>Camera rigs and motion smoothing</td><td>Raw pose</td><td>Smooth, Gimbal, Steadicam, Operator, Fly</td></tr>
+              <tr><td>OSC buttons</td><td>No</td><td>Yes</td></tr>
+              <tr><td>Recording</td><td>Unlimited, CSV export</td><td>Unlimited, plus FBX, Roblox Json, Smooth export, raw IMU columns</td></tr>
+              <tr><td>Take playback</td><td>No</td><td>Stream a saved take</td></tr>
+              <tr><td>Raw IMU stream</td><td>No</td><td>OSC <code>/livetracker/imu</code></td></tr>
+              <tr><td>ARCore at 60 fps</td><td>No</td><td>On phones that offer it</td></tr>
+            </tbody></table></div>
+            <p>Tracking, Scout / Fly, the game controller, lens control and presets, effects, markers, the 3D view, the viewfinders, Hold release and Learn are all in Lite. Camera Motion Studio's receiver plugins are separate from the app plan.</p>
+            <!-- SHOT S36: the Subscription screen on a Lite build -->
+          </section>
+
+          <section id="language">
+            <h2>Language and help</h2>
+            <p>The app follows the phone's language by default. To change it, use the language menu on the setup wizard's first page, in the header of the Learn pages, or <strong>Settings &gt; Help &amp; feedback</strong>. Choose <em>Automatic (phone language)</em> to follow the phone again.</p>
+          </section>
+
+          <section id="next">
+            <h2>Where next</h2>
+            <p>Connect the app to the software you work in: <a href="unreal-engine.html">Unreal Engine</a>, <a href="motionbuilder.html">MotionBuilder</a>, <a href="blender.html">Blender</a>, <a href="roblox-studio.html">Roblox Studio</a> or <a href="obs-studio.html">OBS Studio</a>. Each has a connection checklist for when something does not arrive.</p>
+          </section>
+
+        </article>
+      </div>
+      <nav class="guide-pagination" aria-label="Guide navigation"><a href="index.html">All guides</a><a href="unreal-engine.html">Next: Unreal Engine</a></nav>
+    </main>
+    <footer class="site-footer"><span>Copyright 2026 Tech Story</span><span class="footer-links"><a href="../camera-motion-studio.html">Camera Motion Studio</a><a href="index.html">All guides</a><a href="../privacy-policy.html">Privacy Policy</a><a href="../index.html">Back to site</a></span></footer>
+    <script src="../script.js"></script>
+  </body>
+</html>
