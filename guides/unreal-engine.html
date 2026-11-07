@@ -41,6 +41,7 @@
           </section>
           <section id="phone">
             <h2>Set up the phone</h2>
+            <p>New to the app? The <a href="app.html">app guide</a> explains each mode and setting mentioned below.</p>
             <p>In Camera Motion Studio's setup wizard, choose <strong>Unreal Engine</strong> and enter the Unreal workstation's local IP address and FreeD UDP port (usually <code>40000</code>). The wizard selects FreeD and enables the available UE, OBS, and NDI return-viewfinder modes.</p>
             <p>Check <strong>Settings &gt; Stream</strong>: Protocol <strong>FreeD</strong>, Target IP = the workstation, Port = the FreeD source's port, Camera ID <strong>1</strong>, and Unicast. Keep <strong>Default</strong> axis mapping and <strong>Space scale 1</strong>. FreeD already converts metres to its wire units; another space scale makes the camera travel too far or too little.</p>
             <figure class="guide-figure guide-figure-phone"><a href="../assets/guides/05_connecting_to_receiver.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot at full size"><img src="../assets/guides/05_connecting_to_receiver.png" alt="Earlier Camera Motion Studio stream settings showing a receiver address and port" loading="lazy"></a><figcaption>Match the phone's destination to the Unreal computer and FreeD source. This capture is from an earlier app build.</figcaption></figure>
