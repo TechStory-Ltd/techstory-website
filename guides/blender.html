@@ -27,7 +27,7 @@
         <p class="eyebrow">Blender beta guide</p>
         <h1>Drive a Blender camera from your phone</h1>
         <p class="guide-dek">Move the camera live, record its movement as timed keyframes, and run Blender's timeline from the phone. Camera Motion Link carries calibrated lens values and links scene markers for focus, aim, and reference cameras.</p>
-        <p><a class="guide-all-link" href="mailto:contact@techstory.org.uk?subject=Blender%20Camera%20Motion%20Link%20beta">Request the Blender add-on beta &rarr;</a></p>
+        <p><a class="guide-all-link" href="https://github.com/TechStory-Ltd/blender-device-camera-plugin/releases/tag/0.1">Download Camera Motion Link from GitHub &rarr;</a></p>
         <div class="guide-meta"><span>Blender 4.2+</span><span>OSC over UDP</span><span>Timed recording</span></div>
       </section>
 
@@ -36,12 +36,12 @@
         <article class="guide-article">
           <section id="prepare">
             <h2>Before you start</h2>
-            <p>You need Blender 4.2 or newer, an Android phone running Camera Motion Studio, and a shared local network. Camera Motion Link (formerly Camera Tracker Link) is currently a beta add-on; <a href="mailto:contact@techstory.org.uk?subject=Blender%20Camera%20Motion%20Link%20beta">contact Tech Story for the installable zip</a>.</p>
+            <p>You need Blender 4.2 or newer, an Android phone running Camera Motion Studio, and a shared local network. Camera Motion Link (formerly Camera Tracker Link) is available as a beta add-on from the <a href="https://github.com/TechStory-Ltd/blender-device-camera-plugin/releases/tag/0.1">GitHub release page</a>. The <a href="https://github.com/TechStory-Ltd/blender-device-camera-plugin">repository</a> includes the source code and illustrated user guide.</p>
             <p>Use matching current app and add-on builds: the current camera message includes both local and world poses, and an older receiver cannot read it. The add-on is plain Python with no extra dependencies. It is designed for Windows, macOS, and Linux; development and testing so far have been on Windows with Blender 4.2 and 5.2.</p>
           </section>
           <section id="install">
             <h2>Install Camera Motion Link</h2>
-            <ol><li>In Blender, open <strong>Edit &gt; Preferences &gt; Add-ons</strong>.</li><li>Open the menu in the top right, choose <strong>Install from Disk</strong>, and select the add-on zip.</li><li>Check that Camera Motion Link is enabled. Its network permission lets it receive tracking data and send linked scene markers; allow Blender through the computer firewall on your local network if needed.</li></ol>
+            <ol><li>Open the <a href="https://github.com/TechStory-Ltd/blender-device-camera-plugin/releases/tag/0.1">GitHub release page</a> and, under <strong>Assets</strong>, download <code>camera_motion_link-0.1.0.zip</code>. Choose the extension ZIP, not GitHub's <strong>Source code</strong> archives. Leave the ZIP compressed.</li><li>In Blender, open <strong>Edit &gt; Preferences &gt; Add-ons</strong>.</li><li>Open the menu in the top right, choose <strong>Install from Disk</strong>, and select the downloaded extension ZIP.</li><li>Check that Camera Motion Link is enabled. Its network permission lets it receive tracking data and send linked scene markers; allow Blender through the computer firewall on your local network if needed.</li></ol>
             <figure class="guide-figure"><a href="../assets/guides/blender-install.png" target="_blank" rel="noopener noreferrer" aria-label="Open the add-on installation screenshot at full size"><img src="../assets/guides/blender-install.png" alt="Blender Add-ons preferences menu with Install from Disk" loading="lazy"></a><figcaption>Install the extension zip from Blender's Add-ons preferences.</figcaption></figure>
           </section>
           <section id="phone">
