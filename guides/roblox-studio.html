@@ -12,7 +12,7 @@
     <meta property="og:url" content="https://techstory.org.uk/guides/roblox-studio.html">
     <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
     <link rel="stylesheet" href="../styles.css?v=20261013-1">
-    <link rel="stylesheet" href="../camera-motion-studio-guides.css?v=20261102-1">
+    <link rel="stylesheet" href="../camera-motion-studio-guides.css?v=20261109-1">
   </head>
   <body>
     <header class="site-header" data-header>
@@ -31,7 +31,7 @@
       </section>
 
       <div class="guide-layout">
-        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#choose">Live or saved</a><a href="#install">Install the plugin</a><a href="#phone">Set up the phone</a><a href="#studio">Track in Studio</a><a href="#lens">Lens and scale</a><a href="#markers">Scene markers beta</a><a href="#reference">Reference cameras</a><a href="#paths">Import Camera Paths</a><a href="#cues">Set up a cue</a><a href="#game-flow">Game events</a><a href="#legacy">Existing imports</a><a href="#viewfinder">Return viewfinder</a><a href="#checks">Connection checks</a></aside>
+        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#choose">Live or saved</a><a href="#install">Install the plugin</a><a href="#phone">Set up the phone</a><a href="#studio">Track in Studio</a><a href="#lens">Lens and scale</a><a href="#markers">Scene markers beta</a><a href="#reference">Reference cameras</a><a href="#paths">Import Camera Paths</a><a href="#cues">Set up a cue</a><a href="#game-flow">Game events</a><a href="#legacy">Existing imports</a><a href="#viewfinder">Return viewfinder</a><a href="#checks">Connection checks</a><a href="#support">Support</a></aside>
         <article class="guide-article">
           <section id="choose">
             <h2>Choose a workflow</h2>
@@ -41,9 +41,10 @@
           </section>
           <section id="install">
             <h2>Install the Studio plugin</h2>
-            <p>The <strong>Camera Motion Link</strong> plugin is currently supplied as <code>CameraWebSocketPlugin.lua</code>; there is no public plugin listing linked from this guide. <a href="mailto:contact@techstory.org.uk?subject=Roblox%20Camera%20Motion%20Link%20plugin%20beta">Contact Tech Story to request the beta plugin file</a>.</p>
-            <ol><li>On Windows, place <code>CameraWebSocketPlugin.lua</code> in <code>%LOCALAPPDATA%\Roblox\Plugins</code>.</li><li>Restart Roblox Studio and open your place. Find <strong>Camera Motion Link</strong> under the <strong>Plugins</strong> tab, with <strong>Tracking</strong>, <strong>Markers</strong>, <strong>Marker List</strong>, <strong>Address</strong>, and <strong>Camera Paths</strong>.</li></ol>
-            <p>Install the file as a <strong>Studio plugin</strong>, not a Script or LocalScript in the game. Update the phone and plugin together, even when no Ref marker is selected.</p>
+            <p>The <strong>Camera Motion Link</strong> plugin is on the Roblox Creator Store.</p>
+            <ol><li>Open the <a href="https://create.roblox.com/store/asset/79288259955016/Camera-Motion-Link" target="_blank" rel="noopener noreferrer">Camera Motion Link listing</a> and install it, or search the Toolbox in Studio for <strong>Camera Motion Link</strong>.</li><li>Restart Roblox Studio and open your place. Find <strong>Camera Motion Link</strong> under the <strong>Plugins</strong> tab, with <strong>Tracking</strong>, <strong>Markers</strong>, <strong>Marker List</strong>, <strong>Address</strong>, and <strong>Camera Paths</strong>.</li></ol>
+            <p>Update the phone and plugin together, even when no Ref marker is selected. If you installed an older <strong>Camera Tracker</strong> file by hand into <code>%LOCALAPPDATA%\Roblox\Plugins</code>, delete it so two copies do not run.</p>
+            <p>Prefer a file? <a href="mailto:contact@techstory.org.uk?subject=Roblox%20Camera%20Motion%20Link%20plugin%20file">Contact Tech Story</a> for <code>CameraWebSocketPlugin.lua</code>, which goes in that same folder. Install it as a <strong>Studio plugin</strong>, not a Script or LocalScript in the game.</p>
             <figure class="guide-figure guide-figure-native"><a href="../assets/guides/13e_roblox_toolbar.png" target="_blank" rel="noopener noreferrer" aria-label="Open screenshot at full size"><img src="../assets/guides/13e_roblox_toolbar.png" alt="Camera Motion Link toolbar in Roblox Studio with Tracking, Markers, Marker List, Address and Camera Paths" loading="lazy"></a><figcaption>The Camera Motion Link toolbar in the Plugins tab.</figcaption></figure>
           </section>
           <section id="phone">
@@ -113,6 +114,13 @@ local result = request:Await()</code></pre>
           <section id="checks">
             <h2>Connection checks</h2>
             <ul><li>Connection retries: confirm the phone stream is running, WebSocket (JSON) is selected, the stored IP and port match, and both devices are on the same network.</li><li>No toolbar during Play: use <strong>F8</strong> for tracking and <strong>F7</strong> for markers.</li><li>FOV does not change: calibrate zoom. No depth of field: calibrate both focus and iris.</li><li>Camera seems held by another script: remove older camera-control scripts from previous HTTP setups. The plugin warns when it detects a competing camera script.</li><li>Import unavailable: stop Play and allow the plugin's Script Injection permission. Cue edits not retained: click Save / assign cue and save the place.</li><li><code>Too many WebStreamClients</code>: let the plugin retry; restart Studio if stale clients persist.</li></ul>
+          </section>
+          <section id="support">
+            <h2>Support</h2>
+            <p>Questions about the Roblox plugin or this guide, or something that does not work after the connection checks? Write to us and we will help.</p>
+            <div class="guide-support-card"><div><span>Email</span><a href="mailto:contact@techstory.org.uk?subject=Camera%20Motion%20Studio%20Roblox%20support">contact@techstory.org.uk</a></div><a class="button primary" href="mailto:contact@techstory.org.uk?subject=Camera%20Motion%20Studio%20Roblox%20support">Email support</a></div>
+            <p><strong>It helps to include:</strong></p>
+            <ul class="guide-support-list"><li>Whether you use live tracking or a saved Json take</li><li>The version of the phone app</li><li>What the plugin and the Output window in Studio show</li></ul>
           </section>
         </article>
       </div>

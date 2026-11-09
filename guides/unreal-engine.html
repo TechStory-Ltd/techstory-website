@@ -12,7 +12,7 @@
     <meta property="og:url" content="https://techstory.org.uk/guides/unreal-engine.html">
     <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
     <link rel="stylesheet" href="../styles.css?v=20261013-1">
-    <link rel="stylesheet" href="../camera-motion-studio-guides.css?v=20261102-1">
+    <link rel="stylesheet" href="../camera-motion-studio-guides.css?v=20261109-1">
   </head>
   <body>
     <header class="site-header" data-header>
@@ -31,7 +31,7 @@
       </section>
 
       <div class="guide-layout">
-        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#paths">Choose a setup</a><a href="#phone">Set up the phone</a><a href="#freed">Connect Live Link</a><a href="#lens">Align lens data</a><a href="#plugin">Editor plugin beta</a><a href="#buttons">Phone buttons</a><a href="#markers">Scene markers</a><a href="#viewfinder">Return viewfinder</a><a href="#checks">Connection checks</a></aside>
+        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#paths">Choose a setup</a><a href="#phone">Set up the phone</a><a href="#freed">Connect Live Link</a><a href="#lens">Align lens data</a><a href="#plugin">Editor plugin beta</a><a href="#buttons">Phone buttons</a><a href="#markers">Scene markers</a><a href="#viewfinder">Return viewfinder</a><a href="#checks">Connection checks</a><a href="#support">Support</a></aside>
         <article class="guide-article">
           <section id="paths">
             <h2>Choose your setup</h2>
@@ -84,6 +84,13 @@
           <section id="checks">
             <h2>Connection checks</h2>
             <ul><li>No Live Link subject: check the phone's Target IP, matching FreeD port, active stream, shared network, and Unreal firewall permission.</li><li>Camera travel is too large or small: restore app Space scale <strong>1</strong> and Default axis mapping.</li><li>Lens response differs from the phone: align Live Link FreeD encoder ranges and the Cine Camera's lens limits; check the app's UE focus remap and matching fixed source range, or your Lens File curve.</li><li>Buttons do nothing: confirm Pro, the phone's OSC port, the plugin's <code>osc_port</code>, firewall permission, and that the editor link is running.</li><li>Markers do not appear: check the phone's scene-link switch, <code>phone_ip</code>, port <code>4001</code>, the Allow prompt, and the phone's Scene tab.</li></ul>
+          </section>
+          <section id="support">
+            <h2>Support</h2>
+            <p>Questions about Unreal Engine setup or this guide, or something that does not work after the connection checks? Write to us and we will help.</p>
+            <div class="guide-support-card"><div><span>Email</span><a href="mailto:contact@techstory.org.uk?subject=Camera%20Motion%20Studio%20Unreal%20support">contact@techstory.org.uk</a></div><a class="button primary" href="mailto:contact@techstory.org.uk?subject=Camera%20Motion%20Studio%20Unreal%20support">Email support</a></div>
+            <p><strong>It helps to include:</strong></p>
+            <ul class="guide-support-list"><li>Your Unreal Engine version</li><li>Whether you use built-in FreeD or the editor plugin, and the version of the phone app</li><li>What the <strong>Live Link</strong> window shows for the subject</li></ul>
           </section>
         </article>
       </div>

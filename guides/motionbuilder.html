@@ -12,7 +12,7 @@
     <meta property="og:url" content="https://techstory.org.uk/guides/motionbuilder.html">
     <link rel="icon" href="../assets/favicon.svg?v=3" type="image/svg+xml">
     <link rel="stylesheet" href="../styles.css?v=20261013-1">
-    <link rel="stylesheet" href="../camera-motion-studio-guides.css?v=20261102-1">
+    <link rel="stylesheet" href="../camera-motion-studio-guides.css?v=20261109-1">
   </head>
   <body>
     <header class="site-header" data-header>
@@ -32,7 +32,7 @@
       </section>
 
       <div class="guide-layout">
-        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#prepare">Before you start</a><a href="#install">Install the plugin</a><a href="#phone">Set up the phone</a><a href="#connect">Connect the camera</a><a href="#lens">Lens and sensor</a><a href="#record">Record a take</a><a href="#remote">Phone transport</a><a href="#markers">Scene markers</a><a href="#reference">Roles and reference</a><a href="#viewfinder">Return viewfinder</a><a href="#checks">Connection checks</a></aside>
+        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#prepare">Before you start</a><a href="#install">Install the plugin</a><a href="#phone">Set up the phone</a><a href="#connect">Connect the camera</a><a href="#lens">Lens and sensor</a><a href="#record">Record a take</a><a href="#remote">Phone transport</a><a href="#markers">Scene markers</a><a href="#reference">Roles and reference</a><a href="#viewfinder">Return viewfinder</a><a href="#checks">Connection checks</a><a href="#support">Support</a></aside>
         <article class="guide-article">
           <section id="prepare">
             <h2>Before you start</h2>
@@ -101,6 +101,13 @@
             <h2>Connection checks</h2>
             <ul><li>If status stays on <strong>Listening</strong> or <strong>No data</strong>, check the workstation IP, matching UDP port, OSC stream, and firewall permission. Take the device Offline and Online again after changing its port.</li><li>If the camera scale is wrong, check the app's Space scale and the device's Space Scale; for life size both are 1. Keep Default axis mapping. The current conversion uses scene X right, Y up, Z back, with camera pre-rotation handled by the plugin; there are no device sign properties.</li><li>Compare <strong>Stream rate (Hz)</strong> in the phone's Stream settings with the device's <strong>Receive Rate (Hz)</strong>. These show the actual sending and receiving rates. If the receive rate is much lower, check Wi-Fi quality and that the device's Sampling Rate matches the phone's stream rate.</li></ul>
             <p>Update both the app and plugin if packets arrive but the camera does not move. See the <a href="https://github.com/TechStory-Ltd/mobu-device-camera-plugin" target="_blank" rel="noopener noreferrer">plugin repository</a> for more information about plugin settings.</p>
+          </section>
+          <section id="support">
+            <h2>Support</h2>
+            <p>Questions about the MotionBuilder plugin or this guide, or something that does not work after the connection checks? Write to us and we will help.</p>
+            <div class="guide-support-card"><div><span>Email</span><a href="mailto:contact@techstory.org.uk?subject=Camera%20Motion%20Studio%20MotionBuilder%20support">contact@techstory.org.uk</a></div><a class="button primary" href="mailto:contact@techstory.org.uk?subject=Camera%20Motion%20Studio%20MotionBuilder%20support">Email support</a></div>
+            <p><strong>It helps to include:</strong></p>
+            <ul class="guide-support-list"><li>Your MotionBuilder version and the plugin version</li><li>The version of the phone app</li><li>What the plugin status shows (for example <strong>Listening</strong> or <strong>No data</strong>)</li></ul>
           </section>
         </article>
       </div>

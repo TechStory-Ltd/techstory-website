@@ -17,3 +17,42 @@
 .guide-article :not(pre) > code {
   overflow-wrap: anywhere;
 }
+
+/* Support section at the end of each guide. */
+.guide-support-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  padding: 1.2rem 1.35rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  background: rgba(48, 213, 200, 0.08);
+}
+
+.guide-support-card span {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--muted, #aab6c0);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.guide-support-card a:not(.button) {
+  color: var(--accent);
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.guide-support-card a:not(.button):hover {
+  text-decoration: underline;
+}
+
+.guide-support-list {
+  margin-top: 0.5rem;
+}
