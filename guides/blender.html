@@ -32,7 +32,7 @@
       </section>
 
       <div class="guide-layout">
-        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#prepare">Before you start</a><a href="#install">Install the add-on</a><a href="#phone">Set up the phone</a><a href="#connect">Connect in Blender</a><a href="#lens">Calibrate the lens</a><a href="#record">Record a take</a><a href="#buttons">Phone transport</a><a href="#markers">Scene markers beta</a><a href="#reference">Reference camera</a><a href="#checks">Connection checks</a></aside>
+        <aside class="guide-toc" aria-label="On this page"><strong>On this page</strong><a href="#prepare">Before you start</a><a href="#install">Install the add-on</a><a href="#phone">Set up the phone</a><a href="#connect">Connect in Blender</a><a href="#lens">Calibrate the lens</a><a href="#record">Record a take</a><a href="#buttons">Phone transport</a><a href="#markers">Scene markers beta</a><a href="#reference">Reference camera</a><a href="#checks">Connection checks</a><a href="#support">Support</a></aside>
         <article class="guide-article">
           <section id="prepare">
             <h2>Before you start</h2>
@@ -96,6 +96,10 @@
           <section id="checks">
             <h2>Connection checks</h2>
             <ul><li><strong>No packets:</strong> compare the add-on's <strong>Phone Target IP</strong> with the app's Target IP, check the UDP port, and confirm the phone is streaming OSC rather than FreeD. Keep Blender on <strong>Local network</strong>, not <strong>This computer only</strong>, and allow it through the firewall on the phone's network.</li><li><strong>Wrong Camera ID:</strong> match the ID on both ends. The filter applies to phone buttons as well as poses.</li><li><strong>No signal after receiving:</strong> check that the phone's stream is still running. Old packets do not mean tracking is still live.</li><li><strong>Markers do not link:</strong> first get poses arriving, then check <strong>Accept a marker link</strong>, the separate marker port (normally 4001), and the approval prompt on the phone.</li><li><strong>Recorded camera will not play back:</strong> stop the receiver so incoming motion no longer overrides its animation.</li></ul>
+          </section>
+          <section id="support">
+            <h2>Support</h2>
+            <p>Questions about Camera Motion Link or this guide, or something that does not work after the connection checks? Write to <a href="mailto:contact@techstory.org.uk?subject=Camera%20Motion%20Link%20support">contact@techstory.org.uk</a>. It helps to include your Blender version, the version of the add-on and the phone app, and what the Camera Link panel shows.</p>
           </section>
         </article>
       </div>
